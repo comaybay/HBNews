@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "636632335206",
+    "project_id": "hbnews-se114",
+    "storage_bucket": "hbnews-se114.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636632335206:android:44771416d3df63ec9abea7",
+        "android_client_info": {
+          "package_name": "com.cmb.hbnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636632335206-0qht70nc80vp0rngde05kv52061tnj3f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC53Kr_XXnJ8UVwHSphk_YJjK_3PjQCc3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636632335206-0qht70nc80vp0rngde05kv52061tnj3f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
