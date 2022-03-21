@@ -2,4 +2,12 @@
     <string name="app_name">HBNews</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="history">Tin đọc gần đây</string>
+    <string name="saved">Tin đã lưu</string>
+    <string name="update_profile">Cập nhật thông tin</string>
+    <string name="update_app">Kiểm tra phiên bản mới</string>
+    <string name="rate">Đánh giá ứng dụng</string>
+    <string name="about">Giới thiệu về nhà phát triển</string>
+    <string name="feed_back">Gửi Email phản hồi</string>
+    <string name="sign_out">Đăng xuất</string>
 </resources>

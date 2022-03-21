@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/ic_home"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/icons_home"
         android:title="Màn hình chính"
     />
     <item
         android:id="@+id/ic_category"
-        android:icon="@drawable/ic_category"
+        android:icon="@drawable/icons_diversity"
         android:title="Thể loại"
         />
     <item
         android:id="@+id/ic_person"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/icons_person"
         android:title="Trang cá nhân"
         />
 </menu>
