@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/HBNews/app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.236" />
+        <entry key="..\:/HBNews/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/HBNews/app/src/main/res/layout/fragment_category.xml" value="0.2484375" />
+        <entry key="..\:/HBNews/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/HBNews/app/src/main/res/layout/fragment_user.xml" value="0.23333333333333334" />
+        <entry key="..\:/HBNews/app/src/main/res/menu/menu.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
