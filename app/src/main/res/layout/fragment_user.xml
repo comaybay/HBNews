@@ -23,14 +23,17 @@
         app:layout_constraintStart_toEndOf="@+id/imageAvatar"
         app:layout_constraintTop_toTopOf="@+id/imageAvatar" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageAvatar"
         android:layout_width="118dp"
         android:layout_height="116dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/round_outline"
         android:src="@drawable/cat"
+        app:civ_border_width="3dp"
+        app:civ_border_color="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
