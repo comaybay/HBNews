@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
+import com.squareup.picasso.Picasso
 import java.io.InputStream
 import java.net.URL
 

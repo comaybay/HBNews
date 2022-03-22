@@ -34,7 +34,7 @@ class MainNewsAdapter(
         val news = newsList[position]
         holder.title.text = news.title
         holder.description.text = news.description
-        Picasso.get().load("https://i.imgur.com/DvpvklR.png")
+        Picasso.get().load(news.imgSrc)
                      .placeholder(R.drawable.ic_image_not_found)
                      .into(holder.image)
     }
