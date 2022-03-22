@@ -3,7 +3,7 @@
     <style name="Theme.HBNews" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#F98121</item>
-        <item name="colorPrimaryVariant">#F98121</item>
+        <item name="colorPrimaryVariant">#FFAB91</item>
         <item name="colorOnPrimary">#F98121</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#F98121</item>
