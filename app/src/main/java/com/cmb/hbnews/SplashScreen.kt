@@ -14,7 +14,7 @@ class SplashScreen : AppCompatActivity() {
         handler.postDelayed(Runnable {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-        }, 1600)
+        }, 900)
 
 
     }
