@@ -11,12 +11,14 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:background="#F2F2F2"
-       app:itemIconTint="#828282"
-       app:itemTextColor="#F98121"
+       app:itemIconTint="@color/icons_color"
+       android:layout_alignParentBottom="true"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintLeft_toLeftOf="parent"
        app:layout_constraintRight_toRightOf="parent"
+       app:itemRippleColor="@color/white"
        app:menu="@menu/menu"
+       app:labelVisibilityMode="unlabeled"
        />
    <FrameLayout
       android:id="@+id/fragment"
