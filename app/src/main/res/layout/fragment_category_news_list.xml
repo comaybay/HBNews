@@ -9,5 +9,5 @@
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".home.MainNewsFragment"
-    tools:listitem="@layout/fragment_main_news" />
+    tools:context=".category.CategoryNewsFragment"
+    tools:listitem="@layout/fragment_category_news" />

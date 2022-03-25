@@ -1,8 +1,5 @@
-package com.cmb.hbnews.home
+package com.cmb.hbnews.category
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_main_news.view.*
-import java.io.InputStream
-import java.net.URL
+import kotlinx.android.synthetic.main.fragment_category_news.view.*
 
 
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
-class MainNewsAdapter(
+class CategoryNewsListAdapter(
     private val newsList: List<NewsHeader>
-) : RecyclerView.Adapter<MainNewsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CategoryNewsListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view  = LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_news, parent, false)
+        val view  = LayoutInflater.from(parent.context).inflate(R.layout.fragment_category_news, parent, false)
         return ViewHolder(view)
     }
 
