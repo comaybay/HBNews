@@ -36,7 +36,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:layout_below="@id/toolbar"
         android:id="@+id/fragment_container_view"
-        android:name="com.cmb.hbnews.category.CategoryNewsFragment"
+        android:name="com.cmb.hbnews.home.MainNewsListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
      />

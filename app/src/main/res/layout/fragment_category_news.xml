@@ -63,9 +63,18 @@
                 android:id="@+id/comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="14"
                 android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/news_src"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="false"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_logo_thanhnien" />
         </LinearLayout>
 
     </LinearLayout>
@@ -81,7 +90,7 @@
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/cat" />
     </androidx.cardview.widget.CardView>
 

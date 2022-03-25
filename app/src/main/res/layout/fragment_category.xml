@@ -136,7 +136,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:layout_below="@id/include"
         android:id="@+id/fragment_container_view"
-        android:name="com.cmb.hbnews.category.CategoryNewsFragment"
+        android:name="com.cmb.hbnews.category.CategoryNewsListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -4,5 +4,6 @@ class NewsHeader (
     val title: String,
     val description: String,
     val imgSrc: String,
+    val newsSrcLogoResource: Int,
 ){
 }
