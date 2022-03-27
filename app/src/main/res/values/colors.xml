@@ -12,4 +12,6 @@
     <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
     <color name="orange">#F98121</color>
+    <color name="gray_light">#EDEDED</color>
+    <color name="chip_orange_ripple">#6DC8FF00</color>
 </resources>
