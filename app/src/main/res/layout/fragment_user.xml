@@ -51,18 +51,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="Người dùng"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/signInandSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/signIn_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -73,23 +74,25 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/textViewor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_weight="1"
                     android:text="hoặc"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView13"
-                    app:layout_constraintStart_toEndOf="@+id/textView13"
-                    app:layout_constraintTop_toTopOf="@+id/textView13" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/signIn_btn"
+                    app:layout_constraintStart_toEndOf="@+id/signIn_btn"
+                    app:layout_constraintTop_toTopOf="@+id/signIn_btn" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/signUp_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -98,9 +101,10 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView15"
-                    app:layout_constraintStart_toEndOf="@+id/textView15"
-                    app:layout_constraintTop_toTopOf="@+id/textView15" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewor"
+                    app:layout_constraintStart_toEndOf="@+id/textViewor"
+                    app:layout_constraintTop_toTopOf="@+id/textViewor" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -176,6 +180,7 @@
                             android:layout_marginEnd="24dp"
                             android:text="TextView"
                             android:textStyle="bold"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="@+id/history_news"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/history_news"
@@ -219,6 +224,7 @@
                             android:layout_marginEnd="24dp"
                             android:text="TextView"
                             android:textStyle="bold"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="@+id/saved_news"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/saved_news"
@@ -301,6 +307,7 @@
                             android:layout_marginStart="69dp"
                             android:layout_marginEnd="24dp"
                             android:text="TextView"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="@+id/check_update"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/check_update"

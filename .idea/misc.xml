@@ -4,13 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/HBNews/app/src/main/res/drawable/avatar_corner.xml" value="0.1815" />
+        <entry key="..\:/HBNews/app/src/main/res/drawable/background_button_login.xml" value="0.232" />
         <entry key="..\:/HBNews/app/src/main/res/drawable/background_profile.xml" value="0.226" />
         <entry key="..\:/HBNews/app/src/main/res/drawable/background_white.xml" value="0.226" />
         <entry key="..\:/HBNews/app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.236" />
         <entry key="..\:/HBNews/app/src/main/res/drawable/round_outline.xml" value="0.2155" />
-        <entry key="..\:/HBNews/app/src/main/res/layout/activity_login.xml" value="0.264" />
+        <entry key="..\:/HBNews/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/HBNews/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/HBNews/app/src/main/res/layout/activity_sign_up.xml" value="0.20521590423257802" />
+        <entry key="..\:/HBNews/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/HBNews/app/src/main/res/layout/activity_splash_screen.xml" value="0.20521590423257802" />
         <entry key="..\:/HBNews/app/src/main/res/layout/fragment_category.xml" value="0.2484375" />
         <entry key="..\:/HBNews/app/src/main/res/layout/fragment_home.xml" value="0.264" />
