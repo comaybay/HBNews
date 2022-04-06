@@ -16,7 +16,7 @@ class ScraperVnExpress
     companion object {
 //        private val client: OkHttpClient = OkHttpClient()
 
-         fun getNewsHeaders(category: NewsCategory) : ArrayList<NewsHeader> {
+        fun getNewsHeaders(category: NewsCategory) : ArrayList<NewsHeader> {
             val client = OkHttpClient()
 
              var url ="https://vnexpress.net/microservice/home"
@@ -53,7 +53,7 @@ class ScraperVnExpress
             return parseNewsHeaders(response, categoryCode)
         }
 
-        fun parseNewsHeaders(response: Response, categoryCode: String): ArrayList<NewsHeader>{
+        private fun parseNewsHeaders(response: Response, categoryCode: String): ArrayList<NewsHeader>{
             val data = JSONObject(response.body!!.string())
             val rawNewsArray = data.getJSONObject("data").getJSONObject(categoryCode).getJSONArray("data")
 
@@ -74,7 +74,7 @@ class ScraperVnExpress
             return newsHeaders
         }
 
-        fun parseNewsHeadersLatest(response: Response) : ArrayList<NewsHeader>{
+        private fun parseNewsHeadersLatest(response: Response) : ArrayList<NewsHeader>{
             val data = JSONObject(response.body!!.string())
             val rawNewsArray = data.getJSONObject("data")
                                    .getJSONObject("vne_topstory_beta")

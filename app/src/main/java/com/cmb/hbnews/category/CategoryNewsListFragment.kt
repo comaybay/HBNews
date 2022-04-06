@@ -13,6 +13,7 @@ import com.cmb.hbnews.R
 import com.cmb.hbnews.home.MainNewsListFragment
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.scrapers.NewsCategory
+import com.cmb.hbnews.scrapers.ScraperThanhNien
 import com.cmb.hbnews.scrapers.ScraperVnExpress
 import kotlinx.coroutines.*
 import java.lang.Exception
@@ -50,9 +51,22 @@ class CategoryNewsListFragment : Fragment() {
         view as RecyclerView
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val newsHeaders = ScraperVnExpress.getNewsHeaders(newsCategory)
+            val vnExpressNewsHeaders = ScraperVnExpress.getNewsHeaders(newsCategory)
+            val thanhNienNewsHeaders = ScraperThanhNien.getNewsHeaders(newsCategory)
+            var allNewsHeaders = arrayListOf<NewsHeader>()
+            var length = Math.max(vnExpressNewsHeaders.size, thanhNienNewsHeaders.size);
+            for (i in 0..length) {
+                val vnExpressNewsHeader = vnExpressNewsHeaders.getOrNull(i)
+                if (vnExpressNewsHeader != null)
+                    allNewsHeaders.add(vnExpressNewsHeader)
+
+                val thanhNienNewsHeader = thanhNienNewsHeaders.getOrNull(i)
+                if (thanhNienNewsHeader != null)
+                    allNewsHeaders.add(thanhNienNewsHeader)
+            }
+
             headers.clear()
-            headers.addAll(newsHeaders)
+            headers.addAll(allNewsHeaders)
             withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
         }
     }
@@ -71,6 +85,20 @@ class CategoryNewsListFragment : Fragment() {
             }
 
             return instance
+        }
+
+        //https://stackoverflow.com/questions/55404428/how-to-combine-two-different-length-lists-in-kotlin
+        private fun combine(vararg lists: List<*>) : List<Any> = mutableListOf<Any>().also {
+            combine(it, lists.map(List<*>::iterator))
+        }
+
+        private tailrec fun combine(targetList: MutableList<Any>, iterators: List<Iterator<*>>) {
+            iterators.asSequence()
+                .filter(Iterator<*>::hasNext)
+                .mapNotNull(Iterator<*>::next)
+                .forEach { targetList += it }
+            if (iterators.asSequence().any(Iterator<*>::hasNext))
+                combine(targetList, iterators)
         }
     }
 }
