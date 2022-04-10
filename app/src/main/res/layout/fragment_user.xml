@@ -41,9 +41,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/pacifico"
                 android:text="Xin Chào!"
-                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,8 +53,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="8dp"
+                android:fontFamily="@font/pacifico"
                 android:text="Người dùng"
+                android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -69,12 +72,13 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
                     android:text="Đăng Nhập"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,9 +88,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_weight="1"
-                    android:text="hoặc"
+                    android:fontFamily="sans-serif-black"
+                    android:text=" hoặc "
                     android:textSize="18sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/signIn_btn"
                     app:layout_constraintStart_toEndOf="@+id/signIn_btn"
                     app:layout_constraintTop_toTopOf="@+id/signIn_btn" />
@@ -96,12 +101,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
                     android:text=" Đăng Kí"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/textViewor"
                     app:layout_constraintStart_toEndOf="@+id/textViewor"
                     app:layout_constraintTop_toTopOf="@+id/textViewor" />

@@ -36,7 +36,7 @@ class reading_news : AppCompatActivity() {
         Picasso.get().load(newsImage)
             .placeholder(R.drawable.ic_image_not_found)
             .into(image_description)
-
+        //
 
 
 

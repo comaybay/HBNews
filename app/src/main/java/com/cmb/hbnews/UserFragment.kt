@@ -78,11 +78,11 @@ class UserFragment : Fragment() {
             val intent = Intent(getActivity(),SignUp::class.java)
             startActivity(intent)
         }
-        if(firebaseAuth.currentUser == null)
+        if(firebaseAuth.currentUser != null)
         {
-            signIn_btn.isVisible = true
-            signUp_btn.isVisible = true
-            textViewor.isVisible = true
+            signIn_btn.isVisible = false
+            signUp_btn.isVisible = false
+            textViewor.isVisible = false
         }
         SignOut.setOnClickListener {
             if (firebaseAuth.currentUser != null) {
