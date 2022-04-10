@@ -56,8 +56,8 @@ class UserFragment : Fragment() {
             //Get name on Userprofile
             val documentReference: DocumentReference =
                 firebaseFirestore.collection("users").document(userID)
-            documentReference.addSnapshotListener(
-            ) { documentSnapshot, e -> userName.setText(documentSnapshot!!.getString("fName")) }
+            documentReference.addSnapshotListener()
+            { documentSnapshot, e -> userName.setText(documentSnapshot!!.getString("fName")) }
 
         }
 
@@ -100,8 +100,6 @@ class UserFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         startActivity(Intent(getActivity(), Login::class.java))
-
-
                     })
                     // negative button text and action
                     .setNegativeButton("Trở Về", DialogInterface.OnClickListener { dialog, id ->

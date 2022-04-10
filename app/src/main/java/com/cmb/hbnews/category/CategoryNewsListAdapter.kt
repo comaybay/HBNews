@@ -1,5 +1,6 @@
 package com.cmb.hbnews.category
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
+import com.cmb.hbnews.reading_news
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_category_news.view.*
 import kotlinx.android.synthetic.main.fragment_category_news.view.description
@@ -38,6 +40,18 @@ class CategoryNewsListAdapter(
                      .placeholder(R.drawable.ic_image_not_found)
                      .into(holder.newsImage)
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, reading_news::class.java)
+
+            intent.putExtra("title",holder.title.text)
+            intent.putExtra("description",holder.description.text)
+            intent.putExtra("newsImage",news.imgSrc)
+            intent.putExtra("newsSrcImage",news.newsSrcLogoResource)
+
+            context.startActivity(intent)
+        }
 
     }
 

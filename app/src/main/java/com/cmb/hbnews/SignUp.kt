@@ -40,7 +40,7 @@ class SignUp : AppCompatActivity() {
 
         }
         back_btn_SignUp.setOnClickListener{
-            startActivity(Intent(this@SignUp, MainActivity::class.java))
+            onBackPressed()
         }
         termApp.setOnClickListener {
             term()

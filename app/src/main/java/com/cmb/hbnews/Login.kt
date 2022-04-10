@@ -38,7 +38,7 @@ class Login : AppCompatActivity() {
             Login()
         }
         back_btn_SignIn.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+                onBackPressed()
         }
         sign_in_button_google.setOnClickListener {
 

@@ -1,9 +1,12 @@
 package com.cmb.hbnews.models
 
-class NewsHeader (
-    val title: String,
-    val description: String,
-    val imgSrc: String,
-    val newsSrcLogoResource: Int,
-){
+class NewsHeader constructor(val title: String,
+                 val description: String,
+                 val imgSrc: String,
+                 val newsSrcLogoResource: Int)
+{
+
+
 }
+
+

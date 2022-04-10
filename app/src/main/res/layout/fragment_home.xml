@@ -88,8 +88,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/chip_group_scroll_view"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-         />
+        android:layout_marginRight="16dp" />
 
 
 
