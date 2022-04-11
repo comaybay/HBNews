@@ -61,12 +61,14 @@ class ScraperVnExpress
 
             for (i in 0 until rawNewsArray.length() - 1) {
                 val rawNews = rawNewsArray.getJSONObject(i)
+                val imgSrc = rawNews.getString("thumbnail_url")
                 newsHeaders.add(
                     NewsHeader(
                         title = rawNews.getString("title"),
                         description = rawNews.getString("lead"),
-                        imgSrc = rawNews.getString("thumbnail_url"),
-                        newsSrcLogoResource = R.drawable.ic_logo_vnexpress
+                        imgSrc =  if (imgSrc.isEmpty()) "empty" else imgSrc,
+                        newsSrcLogoResource = R.drawable.ic_logo_vnexpress,
+                        newsUrl = rawNews.getString("share_url")
                     )
                 )
             }
@@ -84,12 +86,14 @@ class ScraperVnExpress
 
             for (i in 0 until rawNewsArray.length() - 1) {
                 val rawNews = rawNewsArray.getJSONObject(i)
+                val imgSrc = rawNews.getString("thumbnail_url")
                 newsHeaders.add(
                     NewsHeader(
                         title = rawNews.getString("title"),
                         description = rawNews.getString("lead"),
-                        imgSrc = rawNews.getString("thumbnail_url"),
-                        newsSrcLogoResource = R.drawable.ic_logo_vnexpress
+                        imgSrc =  if (imgSrc.isEmpty()) "empty" else imgSrc,
+                        newsSrcLogoResource = R.drawable.ic_logo_vnexpress,
+                        newsUrl = rawNews.getString("share_url")
                     )
                 )
             }

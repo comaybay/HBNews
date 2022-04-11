@@ -41,12 +41,14 @@ class ScraperThanhNien {
         private fun parseNewsHeaders(newsHeadersElems: Elements): ArrayList<NewsHeader> {
             var newsHeaders = arrayListOf<NewsHeader>()
             for (elem in newsHeadersElems) {
+            val storyTitle = elem.selectFirst("a.story__title")!!;
                 newsHeaders.add(
                     NewsHeader(
-                        title = elem.selectFirst("a.story__title")!!.text(),
+                        title = storyTitle.text(),
                         description = elem.selectFirst("div.summary")!!.text(),
                         imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("data-src"),
-                        newsSrcLogoResource = R.drawable.ic_logo_thanhnien
+                        newsSrcLogoResource = R.drawable.ic_logo_thanhnien,
+                        newsUrl = storyTitle.attr("href")
                     )
                 )
             }
@@ -56,7 +58,7 @@ class ScraperThanhNien {
         private fun parseNewsHeadersLatest(newsHeadersElems: Elements): ArrayList<NewsHeader> {
             var newsHeaders = arrayListOf<NewsHeader>()
             for (elem in newsHeadersElems) {
-                var title = elem.selectFirst("a.story__title")!!.text()
+                var storyTitle = elem.selectFirst("a.story__title")!!
                 var imgElem = elem.selectFirst("a.story__thumb > img")!!
                 var imageSrc = imgElem.attr("data-src")
                 if (imageSrc.isEmpty())
@@ -64,10 +66,11 @@ class ScraperThanhNien {
 
                 newsHeaders.add(
                     NewsHeader(
-                        title = title,
-                        description = title,
+                        title = storyTitle.text(),
+                        description = storyTitle.text(),
                         imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("src"),
-                        newsSrcLogoResource = R.drawable.ic_logo_thanhnien
+                        newsSrcLogoResource = R.drawable.ic_logo_thanhnien,
+                        newsUrl = storyTitle.attr("href")
                     )
                 )
             }
