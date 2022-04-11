@@ -56,8 +56,6 @@
         android:layout_below="@id/tabLayout"
         android:layout_marginTop="0dp"
         tools:ignore="SpeakableTextPresentCheck"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         >
     </androidx.viewpager2.widget.ViewPager2>
 

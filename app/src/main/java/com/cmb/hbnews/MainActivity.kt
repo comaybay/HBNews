@@ -16,6 +16,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         replaceFragment(homeFragment)
 
+        val transaction = supportFragmentManager.beginTransaction()
+            .add(R.id.fragment, homeFragment)
+            .add(R.id.fragment, categoryFragment)
+            .add(R.id.fragment, userFragment)
+            .show(homeFragment)
+            .hide(categoryFragment)
+            .hide(userFragment)
+            .commit()
+
         bottom_navigation.setOnItemSelectedListener {
             when(it.itemId)
             {
@@ -28,14 +37,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     private fun replaceFragment(fragment: Fragment)
     {
         if(fragment!= null)
         {
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment,fragment)
-            transaction.commit()
+            .hide(homeFragment)
+            .hide(categoryFragment)
+            .hide(userFragment)
+            .show(fragment)
+            .commit()
         }
     }
 }

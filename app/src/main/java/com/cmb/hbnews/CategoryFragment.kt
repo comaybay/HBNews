@@ -26,9 +26,12 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_category, container, false)
+        return inflater.inflate(R.layout.fragment_category, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.viewPager.adapter = CategoryNewsHeadersViewPagerAdapter(this)
+        view.viewPager.offscreenPageLimit = 8
         TabLayoutMediator(view.tabLayout, view.viewPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
             when (position) {
                 0 -> tab.setText("TIN MỚI")
@@ -43,8 +46,6 @@ class CategoryFragment : Fragment() {
                 else -> throw NotImplementedError()
             }
         }).attach()
-
-        return view
     }
 
     private fun navigateNews(category: NewsCategory) {
