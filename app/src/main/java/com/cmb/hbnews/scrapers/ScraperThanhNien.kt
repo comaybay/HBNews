@@ -48,7 +48,8 @@ class ScraperThanhNien {
                         description = elem.selectFirst("div.summary")!!.text(),
                         imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("data-src"),
                         newsSrcLogoResource = R.drawable.ic_logo_thanhnien,
-                        newsUrl = storyTitle.attr("href")
+                        newsUrl = storyTitle.attr("href"),
+                        date = elem.selectFirst("div.meta > span.time")!!.text()
                     )
                 )
             }
@@ -70,7 +71,8 @@ class ScraperThanhNien {
                         description = storyTitle.text(),
                         imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("src"),
                         newsSrcLogoResource = R.drawable.ic_logo_thanhnien,
-                        newsUrl = storyTitle.attr("href")
+                        newsUrl = storyTitle.attr("href"),
+                        date = elem.selectFirst("div.meta > span.time")!!.text()
                     )
                 )
             }

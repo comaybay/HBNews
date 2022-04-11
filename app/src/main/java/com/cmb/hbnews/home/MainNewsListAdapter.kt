@@ -35,6 +35,7 @@ class MainNewsListAdapter(
         Picasso.get().load(news.imgSrc)
             .placeholder(R.drawable.ic_image_not_found)
             .into(holder.newsImage)
+        holder.date.text = news.date
 
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
 
@@ -60,5 +61,6 @@ class MainNewsListAdapter(
         val description: TextView = view.description
         val newsImage: ImageView = view.image_view
         val newsSrcImage: ImageView = view.news_src
+        val date: TextView = view.date
     }
 }

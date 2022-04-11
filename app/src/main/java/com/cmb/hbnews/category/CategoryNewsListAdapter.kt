@@ -40,6 +40,7 @@ class CategoryNewsListAdapter(
                      .placeholder(R.drawable.ic_image_not_found)
                      .into(holder.newsImage)
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
+        holder.date.text = news.date
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
@@ -62,5 +63,6 @@ class CategoryNewsListAdapter(
         val description: TextView = view.description
         val newsImage: ImageView = view.image_view
         val newsSrcImage: ImageView = view.news_src
+        val date: TextView = view.news_date
     }
 }

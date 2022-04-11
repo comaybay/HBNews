@@ -9,6 +9,9 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ScraperVnExpress
@@ -68,7 +71,8 @@ class ScraperVnExpress
                         description = rawNews.getString("lead"),
                         imgSrc =  if (imgSrc.isEmpty()) "empty" else imgSrc,
                         newsSrcLogoResource = R.drawable.ic_logo_vnexpress,
-                        newsUrl = rawNews.getString("share_url")
+                        newsUrl = rawNews.getString("share_url"),
+                        date = SimpleDateFormat("HH:mm dd/MM/yyyy").format(Date(rawNews.getLong("publish_time") * 1000))
                     )
                 )
             }
@@ -93,7 +97,8 @@ class ScraperVnExpress
                         description = rawNews.getString("lead"),
                         imgSrc =  if (imgSrc.isEmpty()) "empty" else imgSrc,
                         newsSrcLogoResource = R.drawable.ic_logo_vnexpress,
-                        newsUrl = rawNews.getString("share_url")
+                        newsUrl = rawNews.getString("share_url"),
+                        date = SimpleDateFormat("HH:mm dd/MM/yyyy").format(Date(rawNews.getLong("publish_time") * 1000))
                     )
                 )
             }
