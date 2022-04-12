@@ -47,7 +47,7 @@ class MainNewsListAdapter(
             intent.putExtra("description",holder.description.text)
             intent.putExtra("newsImage",news.imgSrc)
             intent.putExtra("newsSrcImage",news.newsSrcLogoResource)
-
+            intent.putExtra("date",holder.date.text)
             context.startActivity(intent)
         }
 

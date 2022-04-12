@@ -29,9 +29,12 @@ class reading_news : AppCompatActivity() {
         val description:String = intent.getStringExtra("description").toString()
         val newsImage:String = intent.getStringExtra("newsImage").toString()
         val newsSrcImage:String = intent.getStringExtra("newsSrcImage").toString()
+        val date:String = intent.getStringExtra("date").toString()
+
         //
         title_reading.setText(tilte_reading)
         description_reading.setText(description)
+        publishtime_reading.setText(date)
         //
         Picasso.get().load(newsImage)
             .placeholder(R.drawable.ic_image_not_found)
