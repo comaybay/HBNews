@@ -1,7 +1,10 @@
 package com.cmb.hbnews.scrapers
 
 import com.cmb.hbnews.R
+import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
+import com.cmb.hbnews.models.NewsItems.NewsItemImage
+import com.cmb.hbnews.models.NewsItems.NewsItemText
 import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.Jsoup
@@ -77,6 +80,31 @@ class ScraperThanhNien {
                 )
             }
             return newsHeaders
+        }
+
+        fun getNewsFromUrl(url: String): News {
+            val doc = Jsoup.connect(url).get()
+            val news = News();
+
+            news.title = doc.selectFirst("h1.cms-title")!!.text();
+            news.description = doc.selectFirst("div.cms-desc")!!.text();
+            news.author = doc.selectFirst("a.cms-author")!!.text();
+            news.date = doc.selectFirst("div.meta > time")!!.text();
+
+            val articleItems = doc.select("div#abody > *");
+            for (item in articleItems) {
+                when (item.tagName()) {
+                    "p" -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
+                    "h2" -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.H2))
+                    "table" -> when (item.className()) {
+                        "picture" -> news.content.add(NewsItemImage(
+                                        item.selectFirst("img")!!.attr("data-src"),
+                                        item.selectFirst("td.caption > p")!!.text()
+                                    ))
+                    }
+                }
+            }
+            return news;
         }
     }
 }

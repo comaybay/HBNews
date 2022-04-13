@@ -7,8 +7,15 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
+import com.cmb.hbnews.models.News
+import com.cmb.hbnews.scrapers.ScraperThanhNien
+import com.cmb.hbnews.scrapers.ScraperVnExpress
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_reading_news.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class reading_news : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +35,7 @@ class reading_news : AppCompatActivity() {
         val tilte_reading:String = intent.getStringExtra("title").toString()
         val description:String = intent.getStringExtra("description").toString()
         val newsImage:String = intent.getStringExtra("newsImage").toString()
-        val newsSrcImage:String = intent.getStringExtra("newsSrcImage").toString()
+        val newsSrcLogoResource:Int = intent.getIntExtra("newsSrcLogoResource", 0)
         val date:String = intent.getStringExtra("date").toString()
 
         //
@@ -40,8 +47,19 @@ class reading_news : AppCompatActivity() {
             .placeholder(R.drawable.ic_image_not_found)
             .into(image_description)
         //
+        var news: News
+        lifecycleScope.launch(Dispatchers.IO) {
+            val url = intent.getStringExtra("newsUrl").toString()
+            news = when (newsSrcLogoResource) {
+                R.drawable.ic_logo_vnexpress -> ScraperVnExpress.getNewsFromUrl(url)
+                R.drawable.ic_logo_thanhnien -> ScraperThanhNien.getNewsFromUrl(url)
+                else -> throw NotImplementedError()
+            }
 
-
-
+            withContext(Dispatchers.Main) {
+                //TODO: dùng news để hiển thị nội dung
+                news
+            }
+        }
     }
 }

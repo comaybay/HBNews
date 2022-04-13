@@ -3,25 +3,27 @@ package com.cmb.hbnews.scrapers
 import android.util.Log
 import com.cmb.hbnews.R
 import com.cmb.hbnews.category.CategoryNewsListFragment
-import com.cmb.hbnews.models.NewsHeader
+import com.cmb.hbnews.models.*
+import com.cmb.hbnews.models.NewsItems.NewsItemImage
+import com.cmb.hbnews.models.NewsItems.NewsItemText
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
+import org.jsoup.Jsoup
 import java.io.IOException
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 class ScraperVnExpress
 {
     companion object {
-//        private val client: OkHttpClient = OkHttpClient()
+        private val client: OkHttpClient = OkHttpClient()
 
         fun getNewsHeaders(category: NewsCategory) : ArrayList<NewsHeader> {
-            val client = OkHttpClient()
-
              var url ="https://vnexpress.net/microservice/home"
             if (category == NewsCategory.LATEST) {
                 url = "https://gw.vnexpress.net/bt?site_id=1000000&category_id=1000000&showed_area=vne_topstory_beta&limit=10&data_select=article_id,article_type,title,share_url,thumbnail_url,publish_time,lead,privacy,original_cate,article_category&exclude_id=&thumb_size=300x180&thumb_quality=100&thumb_dpr=1,2&thumb_fit=crop"
@@ -106,5 +108,27 @@ class ScraperVnExpress
             return newsHeaders
         }
 
+        fun getNewsFromUrl(url: String): News {
+            val doc = Jsoup.connect(url).get()
+            val news = News();
+            news.title = doc.selectFirst("h1.title-detail")!!.text();
+            news.description = doc.selectFirst("p.description")!!.text();
+            news.author = doc.selectFirst("p > strong")!!.text();
+            news.date = doc.selectFirst("span.date")!!.text();
+
+            val articleItems = doc.select("article.fck_detail > *");
+            for (item in articleItems) {
+                when (item.tagName()) {
+                    "p" -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
+                    "figure" -> news.content.add(
+                        NewsItemImage(
+                            item.selectFirst("img")!!.attr("data-src"),
+                            item.selectFirst("figcaption")!!.text()
+                        )
+                    )
+                }
+            }
+            return news;
+        }
     }
 }
