@@ -51,8 +51,8 @@ class reading_news : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             val url = intent.getStringExtra("newsUrl").toString()
             news = when (newsSrcLogoResource) {
-                R.drawable.ic_logo_vnexpress -> ScraperVnExpress.getNewsFromUrl(url)
-                R.drawable.ic_logo_thanhnien -> ScraperThanhNien.getNewsFromUrl(url)
+                R.drawable.ic_logo_vnexpress -> ScraperVnExpress().getNewsFromUrl(url)
+                R.drawable.ic_logo_thanhnien -> ScraperThanhNien().getNewsFromUrl(url)
                 else -> throw NotImplementedError()
             }
 

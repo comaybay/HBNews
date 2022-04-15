@@ -51,8 +51,8 @@ class CategoryNewsListFragment : Fragment() {
         view as RecyclerView
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val vnExpressNewsHeaders = ScraperVnExpress.getNewsHeaders(newsCategory)
-            val thanhNienNewsHeaders = ScraperThanhNien.getNewsHeaders(newsCategory)
+            val vnExpressNewsHeaders = ScraperVnExpress().getNewsHeaders(newsCategory)
+            val thanhNienNewsHeaders = ScraperThanhNien().getNewsHeaders(newsCategory)
             var allNewsHeaders = arrayListOf<NewsHeader>()
             var length = Math.max(vnExpressNewsHeaders.size, thanhNienNewsHeaders.size);
             for (i in 0..length) {
