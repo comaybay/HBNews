@@ -52,6 +52,7 @@ class CategoryNewsListAdapter(
             intent.putExtra("newsSrcLogoResource",news.newsSrcLogoResource)
             intent.putExtra("date",holder.date.text)
             intent.putExtra("newsUrl",news.newsUrl)
+            intent.putExtra("newsSource",news.newsSource)
             context.startActivity(intent)
         }
 

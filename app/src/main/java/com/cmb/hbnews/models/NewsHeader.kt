@@ -1,12 +1,13 @@
 package com.cmb.hbnews.models
 
-class NewsHeader constructor(val title: String,
-                 val description: String,
-                 val imgSrc: String,
-                 val newsSrcLogoResource: Int,
-                 val newsUrl: String,
-                 val date: String)
-{
+import com.cmb.hbnews.scrapers.NewsSource
 
-
-}
+class NewsHeader constructor(
+    val title: String,
+    val description: String,
+    val imgSrc: String,
+    val date: String,
+    val newsUrl: String,
+    val newsSource: NewsSource,
+    val newsSrcLogoResource: Int,
+)

@@ -1,7 +1,6 @@
 package com.cmb.hbnews.category
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.cmb.hbnews.R
-import com.cmb.hbnews.home.MainNewsListFragment
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.scrapers.NewsCategory
-import com.cmb.hbnews.scrapers.ScraperThanhNien
-import com.cmb.hbnews.scrapers.ScraperVnExpress
+import com.cmb.hbnews.scrapers.NewsProvider
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 /**
  * A fragment representing a list of Items.
@@ -51,22 +47,8 @@ class CategoryNewsListFragment : Fragment() {
         view as RecyclerView
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val vnExpressNewsHeaders = ScraperVnExpress().getNewsHeaders(newsCategory)
-            val thanhNienNewsHeaders = ScraperThanhNien().getNewsHeaders(newsCategory)
-            var allNewsHeaders = arrayListOf<NewsHeader>()
-            var length = Math.max(vnExpressNewsHeaders.size, thanhNienNewsHeaders.size);
-            for (i in 0..length) {
-                val vnExpressNewsHeader = vnExpressNewsHeaders.getOrNull(i)
-                if (vnExpressNewsHeader != null)
-                    allNewsHeaders.add(vnExpressNewsHeader)
-
-                val thanhNienNewsHeader = thanhNienNewsHeaders.getOrNull(i)
-                if (thanhNienNewsHeader != null)
-                    allNewsHeaders.add(thanhNienNewsHeader)
-            }
-
             headers.clear()
-            headers.addAll(allNewsHeaders)
+            headers.addAll(NewsProvider.getNewsHeaders(newsCategory))
             withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
         }
     }

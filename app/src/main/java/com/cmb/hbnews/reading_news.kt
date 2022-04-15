@@ -3,14 +3,11 @@ package com.cmb.hbnews
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import android.widget.TextView
-import android.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import com.cmb.hbnews.models.News
-import com.cmb.hbnews.scrapers.ScraperThanhNien
-import com.cmb.hbnews.scrapers.ScraperVnExpress
+import com.cmb.hbnews.scrapers.NewsProvider
+import com.cmb.hbnews.scrapers.NewsSource
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_reading_news.*
 import kotlinx.coroutines.Dispatchers
@@ -50,11 +47,9 @@ class reading_news : AppCompatActivity() {
         var news: News
         lifecycleScope.launch(Dispatchers.IO) {
             val url = intent.getStringExtra("newsUrl").toString()
-            news = when (newsSrcLogoResource) {
-                R.drawable.ic_logo_vnexpress -> ScraperVnExpress().getNewsFromUrl(url)
-                R.drawable.ic_logo_thanhnien -> ScraperThanhNien().getNewsFromUrl(url)
-                else -> throw NotImplementedError()
-            }
+            val newsSource = intent.getSerializableExtra("newsSource") as NewsSource
+
+            news = NewsProvider.getNewsFromUrl(newsSource, url)
 
             withContext(Dispatchers.Main) {
                 //TODO: dùng news để hiển thị nội dung

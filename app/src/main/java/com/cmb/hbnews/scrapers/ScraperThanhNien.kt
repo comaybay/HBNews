@@ -5,15 +5,11 @@ import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.models.NewsItems.NewsItemImage
 import com.cmb.hbnews.models.NewsItems.NewsItemText
-import okhttp3.Request
-import okhttp3.Response
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import java.io.IOException
 
-class ScraperThanhNien : NewsScraper {
+class ScraperThanhNien : INewsScraper {
     override fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
-
         val pageUrl = when (category) {
             NewsCategory.LATEST -> "https://thanhnien.vn/tin-24h.html"
             NewsCategory.CURRENT_AFFAIRS -> "https://thanhnien.vn/thoi-su/"
@@ -41,28 +37,29 @@ class ScraperThanhNien : NewsScraper {
     }
 
     private fun parseNewsHeaders(newsHeadersElems: Elements): ArrayList<NewsHeader> {
-        var newsHeaders = arrayListOf<NewsHeader>()
+        val newsHeaders = arrayListOf<NewsHeader>()
         for (elem in newsHeadersElems) {
-        val storyTitle = elem.selectFirst("a.story__title")!!;
-            newsHeaders.add(
-                NewsHeader(
-                    title = storyTitle.text(),
-                    description = elem.selectFirst("div.summary")!!.text(),
-                    imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("data-src"),
-                    newsSrcLogoResource = R.drawable.ic_logo_thanhnien,
-                    newsUrl = storyTitle.attr("href"),
-                    date = elem.selectFirst("div.meta > span.time")!!.text()
+            val storyTitle = elem.selectFirst("a.story__title")!!;
+                newsHeaders.add(
+                    NewsHeader(
+                        title = storyTitle.text(),
+                        description = elem.selectFirst("div.summary")!!.text(),
+                        date = elem.selectFirst("div.meta > span.time")!!.text(),
+                        imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("data-src"),
+                        newsUrl = storyTitle.attr("href"),
+                        newsSource = NewsSource.ThanhNien,
+                        newsSrcLogoResource = R.drawable.ic_logo_thanhnien
+                    )
                 )
-            )
         }
         return newsHeaders
     }
 
     private fun parseNewsHeadersLatest(newsHeadersElems: Elements): ArrayList<NewsHeader> {
-        var newsHeaders = arrayListOf<NewsHeader>()
+        val newsHeaders = arrayListOf<NewsHeader>()
         for (elem in newsHeadersElems) {
-            var storyTitle = elem.selectFirst("a.story__title")!!
-            var imgElem = elem.selectFirst("a.story__thumb > img")!!
+            val storyTitle = elem.selectFirst("a.story__title")!!
+            val imgElem = elem.selectFirst("a.story__thumb > img")!!
             var imageSrc = imgElem.attr("data-src")
             if (imageSrc.isEmpty())
                 imageSrc = imgElem.attr("src")
@@ -71,10 +68,11 @@ class ScraperThanhNien : NewsScraper {
                 NewsHeader(
                     title = storyTitle.text(),
                     description = storyTitle.text(),
+                    date = elem.selectFirst("div.meta > span.time")!!.text(),
                     imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("src"),
-                    newsSrcLogoResource = R.drawable.ic_logo_thanhnien,
                     newsUrl = storyTitle.attr("href"),
-                    date = elem.selectFirst("div.meta > span.time")!!.text()
+                    newsSource = NewsSource.ThanhNien,
+                    newsSrcLogoResource = R.drawable.ic_logo_thanhnien
                 )
             )
         }

@@ -1,26 +1,21 @@
 package com.cmb.hbnews.scrapers
 
-import android.util.Log
 import com.cmb.hbnews.R
-import com.cmb.hbnews.category.CategoryNewsListFragment
 import com.cmb.hbnews.models.*
 import com.cmb.hbnews.models.NewsItems.NewsItemImage
 import com.cmb.hbnews.models.NewsItems.NewsItemText
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.io.IOException
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
-class ScraperVnExpress : NewsScraper
+class ScraperVnExpress : INewsScraper
 {
     private val client: OkHttpClient = OkHttpClient()
 
@@ -73,9 +68,10 @@ class ScraperVnExpress : NewsScraper
                     title = rawNews.getString("title"),
                     description = rawNews.getString("lead"),
                     imgSrc =  if (imgSrc.isEmpty()) "empty" else imgSrc,
-                    newsSrcLogoResource = R.drawable.ic_logo_vnexpress,
+                    date = SimpleDateFormat("HH:mm dd/MM/yyyy").format(Date(rawNews.getLong("publish_time") * 1000)),
                     newsUrl = rawNews.getString("share_url"),
-                    date = SimpleDateFormat("HH:mm dd/MM/yyyy").format(Date(rawNews.getLong("publish_time") * 1000))
+                    newsSource = NewsSource.VnExpress,
+                    newsSrcLogoResource = R.drawable.ic_logo_vnexpress
                 )
             )
         }
@@ -98,10 +94,11 @@ class ScraperVnExpress : NewsScraper
                 NewsHeader(
                     title = rawNews.getString("title"),
                     description = rawNews.getString("lead"),
+                    date = SimpleDateFormat("HH:mm dd/MM/yyyy").format(Date(rawNews.getLong("publish_time") * 1000)),
                     imgSrc =  if (imgSrc.isEmpty()) "empty" else imgSrc,
-                    newsSrcLogoResource = R.drawable.ic_logo_vnexpress,
                     newsUrl = rawNews.getString("share_url"),
-                    date = SimpleDateFormat("HH:mm dd/MM/yyyy").format(Date(rawNews.getLong("publish_time") * 1000))
+                    newsSource = NewsSource.VnExpress,
+                    newsSrcLogoResource = R.drawable.ic_logo_vnexpress
                 )
             )
         }
