@@ -3,7 +3,11 @@ package com.cmb.hbnews.scrapers
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
+import com.cmb.hbnews.models.NewsItems.NewsItemImage
+import com.cmb.hbnews.models.NewsItems.NewsItemText
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import java.lang.Exception
 
 class ScraperVietnamnet : INewsScraper{
     override fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
@@ -20,7 +24,15 @@ class ScraperVietnamnet : INewsScraper{
             else -> throw NotImplementedError()
         }
 
-        val doc = Jsoup.connect(pageUrl).get()
+        var doc: Document? = null
+        while (doc == null) {
+            try {
+                doc = Jsoup.connect(pageUrl).get()
+            }
+            catch (e: Exception) {
+                // không hiểu sao... lâu lâu bị exception, cần phải thử lại
+            }
+        }
         val newsHeaderElems = doc.select("div.feature-box")
         val newsHeaders = arrayListOf<NewsHeader>()
 
@@ -50,7 +62,38 @@ class ScraperVietnamnet : INewsScraper{
     }
 
     override fun getNewsFromUrl(url: String): News {
-        TODO("Not yet implemented")
+        var doc: Document? = null
+        while (doc == null) {
+            try {
+                doc = Jsoup.connect(url).get()
+            }
+            catch (e: Exception) {
+                // không hiểu sao... lâu lâu bị exception, cần phải thử lại
+            }
+        }
+        val news = News();
+
+        news.title = doc.selectFirst("h1.newsFeature__header-title")!!.text();
+        news.description = doc.selectFirst("div.newFeature__main-textBold")!!.text();
+        news.author = doc.selectFirst("strong:last-child")!!.text();
+        news.date = doc.selectFirst("div.breadcrumb-box__time")!!.text();
+
+        val articleItems = doc.select("div.maincontent > div > *");
+        for (item in articleItems) {
+            when (item.tagName()) {
+                "p" -> when (item.children().size > 0) {
+                    true -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.H2))
+                    false -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
+                }
+                "figure" -> news.content.add(
+                    NewsItemImage(
+                        item.selectFirst("img")!!.attr("src"),
+                        item.selectFirst("figcaption")!!.text()
+                    )
+                )
+            }
+        }
+        return news;
     }
 
 }
