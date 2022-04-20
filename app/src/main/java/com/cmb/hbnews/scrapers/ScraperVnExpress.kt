@@ -109,9 +109,13 @@ class ScraperVnExpress : INewsScraper
     override fun getNewsFromUrl(url: String): News {
         val doc = Jsoup.connect(url).get()
         val news = News();
+        var authorElem = doc.selectFirst("article.fck_detail > p.author_mail")
+        if (authorElem == null)
+            authorElem = doc.selectFirst("article.fck_detail > p[style*='text-align:right']")
+
         news.title = doc.selectFirst("h1.title-detail")!!.text();
         news.description = doc.selectFirst("p.description")!!.text();
-        news.author = doc.selectFirst("p > strong")!!.text();
+        news.author = authorElem?.text() ?: "";
         news.date = doc.selectFirst("span.date")!!.text();
 
         val articleItems = doc.select("article.fck_detail > *");
@@ -125,13 +129,26 @@ class ScraperVnExpress : INewsScraper
     private fun parseNewsDefault(articleItems: Elements, news: News): News {
         for (item in articleItems) {
             when (item.tagName()) {
-                "p" -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
-                "figure" -> news.content.add(
-                    NewsItemImage(
-                        item.selectFirst("img")!!.attr("data-src"),
-                        item.selectFirst("figcaption")!!.text()
-                    )
+                "p" -> news.content.add(
+                    NewsItemText(item.text(),
+                    if (item.selectFirst("strong") == null) NewsItemText.TextType.P else NewsItemText.TextType.P_BOLD )
                 )
+                "figure" -> {
+                    val imgElem =  item.selectFirst("img")
+                    if (imgElem == null)
+                        continue;
+
+                    var imgSrc = imgElem.attr("data-src")
+                    if (imgSrc.isEmpty())
+                        imgSrc = imgElem.attr("src")
+
+                    news.content.add(
+                        NewsItemImage(
+                            imgSrc,
+                            item.selectFirst("figcaption")!!.text()
+                        )
+                    )
+                }
             }
         }
         return news;
@@ -160,7 +177,11 @@ class ScraperVnExpress : INewsScraper
 
                 "wrap_pic" -> {
                     for (img in item.select("img")) {
-                        news.content.add(NewsItemImage(img.attr("src"),""))
+                        var imgSrc = img.attr("src")
+                        if (imgSrc.isEmpty())
+                            imgSrc = img.attr("data-src")
+
+                        news.content.add(NewsItemImage(imgSrc,""))
                     }
 
                     extractParagraph(item)

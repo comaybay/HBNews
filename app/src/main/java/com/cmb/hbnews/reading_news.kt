@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import com.cmb.hbnews.models.News
+import com.cmb.hbnews.models.NewsItems.NewsItem
+import com.cmb.hbnews.models.NewsItems.NewsItemImage
+import com.cmb.hbnews.models.NewsItems.NewsItemText
+import com.cmb.hbnews.readingnews.NewsItemListFragment
 import com.cmb.hbnews.scrapers.NewsProvider
 import com.cmb.hbnews.scrapers.NewsSource
 import com.squareup.picasso.Picasso
@@ -35,15 +39,13 @@ class reading_news : AppCompatActivity() {
         val newsSrcLogoResource:Int = intent.getIntExtra("newsSrcLogoResource", 0)
         val date:String = intent.getStringExtra("date").toString()
 
-        //
-        title_reading.setText(tilte_reading)
-        description_reading.setText(description)
-        publishtime_reading.setText(date)
-        //
         Picasso.get().load(newsImage)
             .placeholder(R.drawable.ic_image_not_found)
             .into(image_description)
-        //
+        title_reading.setText(tilte_reading)
+        description_reading.setText(description)
+        publishtime_reading.setText(date)
+
         var news: News
         lifecycleScope.launch(Dispatchers.IO) {
             val url = intent.getStringExtra("newsUrl").toString()
@@ -52,8 +54,14 @@ class reading_news : AppCompatActivity() {
             news = NewsProvider.getNewsFromUrl(newsSource, url)
 
             withContext(Dispatchers.Main) {
-                //TODO: dùng news để hiển thị nội dung
-                news
+                author_reading.setText(news.author)
+                publishtime_reading.setText(news.date)
+                description_reading.setText(news.description)
+                title_reading.setText(news.title)
+
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.reading_news_fcv, NewsItemListFragment(news.content))
+                    .commit()
             }
         }
     }

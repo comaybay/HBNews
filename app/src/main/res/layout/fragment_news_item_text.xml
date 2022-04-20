@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/news_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nghị sĩ và thống đốc Nga xác nhận đại tá Andrey Paliy, phó tư lệnh Hạm đội Biển Đen, thiệt mạng trong giao tranh gần thành phố Mariupol, đông nam Ukraine."
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="serif"
+        android:textSize="14sp" />
+</LinearLayout>

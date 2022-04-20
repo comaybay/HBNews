@@ -68,19 +68,5 @@ class CategoryNewsListFragment : Fragment() {
 
             return instance
         }
-
-        //https://stackoverflow.com/questions/55404428/how-to-combine-two-different-length-lists-in-kotlin
-        private fun combine(vararg lists: List<*>) : List<Any> = mutableListOf<Any>().also {
-            combine(it, lists.map(List<*>::iterator))
-        }
-
-        private tailrec fun combine(targetList: MutableList<Any>, iterators: List<Iterator<*>>) {
-            iterators.asSequence()
-                .filter(Iterator<*>::hasNext)
-                .mapNotNull(Iterator<*>::next)
-                .forEach { targetList += it }
-            if (iterators.asSequence().any(Iterator<*>::hasNext))
-                combine(targetList, iterators)
-        }
     }
 }

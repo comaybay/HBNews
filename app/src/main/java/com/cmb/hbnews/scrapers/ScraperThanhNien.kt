@@ -39,13 +39,18 @@ class ScraperThanhNien : INewsScraper {
     private fun parseNewsHeaders(newsHeadersElems: Elements): ArrayList<NewsHeader> {
         val newsHeaders = arrayListOf<NewsHeader>()
         for (elem in newsHeadersElems) {
+            val imgElem = elem.selectFirst("a.story__thumb > img")!!
+            var imageSrc = imgElem.attr("data-src")
+            if (imageSrc.isNullOrEmpty())
+                imageSrc = imgElem.attr("src")
+
             val storyTitle = elem.selectFirst("a.story__title")!!;
                 newsHeaders.add(
                     NewsHeader(
                         title = storyTitle.text(),
                         description = elem.selectFirst("div.summary")!!.text(),
                         date = elem.selectFirst("div.meta > span.time")!!.text(),
-                        imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("data-src"),
+                        imgSrc = imageSrc,
                         newsUrl = storyTitle.attr("href"),
                         newsSource = NewsSource.ThanhNien,
                         newsSrcLogoResource = R.drawable.ic_logo_thanhnien
@@ -61,7 +66,7 @@ class ScraperThanhNien : INewsScraper {
             val storyTitle = elem.selectFirst("a.story__title")!!
             val imgElem = elem.selectFirst("a.story__thumb > img")!!
             var imageSrc = imgElem.attr("data-src")
-            if (imageSrc.isEmpty())
+            if (imageSrc.isNullOrEmpty())
                 imageSrc = imgElem.attr("src")
 
             newsHeaders.add(
@@ -69,7 +74,7 @@ class ScraperThanhNien : INewsScraper {
                     title = storyTitle.text(),
                     description = storyTitle.text(),
                     date = elem.selectFirst("div.meta > span.time")!!.text(),
-                    imgSrc = elem.selectFirst("a.story__thumb > img")!!.attr("src"),
+                    imgSrc = imageSrc,
                     newsUrl = storyTitle.attr("href"),
                     newsSource = NewsSource.ThanhNien,
                     newsSrcLogoResource = R.drawable.ic_logo_thanhnien
@@ -94,10 +99,20 @@ class ScraperThanhNien : INewsScraper {
                 "p" -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
                 "h2" -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.H2))
                 "table" -> when (item.className()) {
-                    "picture" -> news.content.add(NewsItemImage(
-                                    item.selectFirst("img")!!.attr("data-src"),
-                                    item.selectFirst("td.caption > p")!!.text()
-                                ))
+                    "picture" -> {
+                        val imgElem = item.selectFirst("img")!!
+
+                        var imgSrc = imgElem.attr("src")
+                        if (imgSrc.isNullOrEmpty())
+                            imgSrc =  imgElem.attr("data-src")
+
+                        news.content.add(
+                            NewsItemImage(
+                                imgSrc,
+                                item.selectFirst("td.caption > p")?.text() ?: ""
+                            )
+                        )
+                    }
                 }
             }
         }

@@ -7,6 +7,6 @@ package com.cmb.hbnews.models.NewsItems
  */
 class NewsItemText(val text: String, val textType: TextType) : NewsItem(NewsItem.Type.TEXT) {
     enum class TextType {
-        P, H2
+        P, P_BOLD, H2
     }
 }

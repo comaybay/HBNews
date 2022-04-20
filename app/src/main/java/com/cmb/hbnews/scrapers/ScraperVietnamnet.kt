@@ -75,22 +75,28 @@ class ScraperVietnamnet : INewsScraper{
 
         news.title = doc.selectFirst("h1.newsFeature__header-title")!!.text();
         news.description = doc.selectFirst("div.newFeature__main-textBold")!!.text();
-        news.author = doc.selectFirst("div.maincontent > div > p:last-of-type")!!.text();
+        news.author = doc.selectFirst("div.maincontent div > p:last-of-type")!!.text();
         news.date = doc.selectFirst("div.breadcrumb-box__time")!!.text();
 
-        val articleItems = doc.select("div.maincontent > div > *");
+        // lí do dùng div.maincontent div do có trường hợp đặc biệt: https://vietnamnet.vn/nhung-cong-chua-hoang-tu-thanh-thuong-dan-van-bi-soi-xet-2010386.html
+        val articleItems = doc.select("div.maincontent div > *");
         for (item in articleItems) {
             when (item.tagName()) {
-                "p" -> when (item.children().size > 0) {
-                    true -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.H2))
-                    false -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
+                "p" -> when (item.selectFirst("strong") == null) {
+                    true -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P))
+                    false -> news.content.add(NewsItemText(item.text(), NewsItemText.TextType.P_BOLD
+                    ))
                 }
-                "figure" -> news.content.add(
-                    NewsItemImage(
-                        item.selectFirst("img")!!.attr("src"),
-                        item.selectFirst("figcaption")!!.text()
-                    )
-                )
+                "figure" -> {
+                    if (item.hasClass("image")) {
+                        news.content.add(
+                            NewsItemImage(
+                                item.selectFirst("img")!!.attr("src"),
+                                item.selectFirst("figcaption")!!.text()
+                            )
+                        )
+                    }
+                }
             }
         }
         return news;
