@@ -73,13 +73,30 @@ class ScraperVietnamnet : INewsScraper{
         }
         val news = News();
 
-        news.title = doc.selectFirst("h1.newsFeature__header-title")!!.text();
-        news.description = doc.selectFirst("div.newFeature__main-textBold")!!.text();
-        news.author = doc.selectFirst("div.maincontent div > p:last-of-type")?.selectFirst("strong")?.text() ?: "";
-        news.date = doc.selectFirst("div.breadcrumb-box__time")!!.text();
+        // trường hợp trên: https://vietnamnet.vn/he-lo-thi-sinh-thi-hoa-hau-an-chay-truong-tu-nam-16-tuoi-ve-dep-choi-co-vua-gioi-2011148.html
+        // trường hợp dưới (báo video): https://vietnamnet.vn/trung-quan-giam-can-cap-toc-vi-k-icm-2011512.html
+        val titleElem = doc.selectFirst("h1.newsFeature__header-title")
+                        ?: doc.selectFirst("div.video-detail__text > h1")!!
+
+        val descElem = doc.selectFirst("div.newFeature__main-textBold")
+                        ?: doc.selectFirst("div > p.text-bold")!!;
+
+        val authorElem = doc.selectFirst("div.maincontent div > p:last-of-type")?.selectFirst("strong")
+            ?:  doc.selectFirst("div.maincontent > p:last-of-type")?.selectFirst("strong")
+
+        news.title = titleElem.text();
+        news.description = descElem.text();
+        news.author = authorElem?.text() ?: "";
+        news.date = doc.selectFirst("div.breadcrumb-box__time")?.text() ?: "";
 
         // lí do dùng div.maincontent div do có trường hợp đặc biệt: https://vietnamnet.vn/nhung-cong-chua-hoang-tu-thanh-thuong-dan-van-bi-soi-xet-2010386.html
-        val articleItems = doc.select("div.maincontent div > *");
+        var articleItems = doc.select("div.maincontent div > *");
+
+        if (articleItems.size == 0) {
+            // trường hợp báo video: https://vietnamnet.vn/trung-quan-giam-can-cap-toc-vi-k-icm-2011512.html
+            articleItems = doc.select("div.maincontent > *");
+        }
+
         for (item in articleItems) {
             when (item.tagName()) {
                 "p" -> when (item.selectFirst("strong") == null) {
