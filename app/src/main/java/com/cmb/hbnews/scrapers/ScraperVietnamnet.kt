@@ -75,7 +75,7 @@ class ScraperVietnamnet : INewsScraper{
 
         news.title = doc.selectFirst("h1.newsFeature__header-title")!!.text();
         news.description = doc.selectFirst("div.newFeature__main-textBold")!!.text();
-        news.author = doc.selectFirst("div.maincontent div > p:last-of-type")!!.text();
+        news.author = doc.selectFirst("div.maincontent div > p:last-of-type")?.selectFirst("strong")?.text() ?: "";
         news.date = doc.selectFirst("div.breadcrumb-box__time")!!.text();
 
         // lí do dùng div.maincontent div do có trường hợp đặc biệt: https://vietnamnet.vn/nhung-cong-chua-hoang-tu-thanh-thuong-dan-van-bi-soi-xet-2010386.html

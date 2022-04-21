@@ -101,10 +101,9 @@ class ScraperThanhNien : INewsScraper {
                 "table" -> when (item.className()) {
                     "picture" -> {
                         val imgElem = item.selectFirst("img")!!
-
                         var imgSrc = imgElem.attr("src")
-                        if (imgSrc.isNullOrEmpty())
-                            imgSrc =  imgElem.attr("data-src")
+                        if (imgSrc.isNullOrEmpty() || !imgSrc.startsWith("http"))
+                            imgSrc = imgElem.attr("data-src")
 
                         news.content.add(
                             NewsItemImage(

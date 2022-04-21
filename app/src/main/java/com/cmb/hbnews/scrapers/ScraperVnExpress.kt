@@ -110,8 +110,8 @@ class ScraperVnExpress : INewsScraper
         val doc = Jsoup.connect(url).get()
         val news = News();
         var authorElem = doc.selectFirst("article.fck_detail > p.author_mail")
-        if (authorElem == null)
-            authorElem = doc.selectFirst("article.fck_detail > p[style*='text-align:right']")
+            ?: doc.selectFirst("article.fck_detail > p[style*='text-align:right']")
+            ?: doc.selectFirst("article.fck_detail > p[align='right']")
 
         news.title = doc.selectFirst("h1.title-detail")!!.text();
         news.description = doc.selectFirst("p.description")!!.text();
