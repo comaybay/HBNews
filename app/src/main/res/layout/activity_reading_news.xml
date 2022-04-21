@@ -112,6 +112,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="16dp"
+                    android:layout_weight="1"
                     android:fontFamily="serif"
                     android:text="Tác Giả..."
                     android:textSize="14sp"
@@ -140,7 +141,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginRight="16dp"
                 android:fontFamily="@font/noto_serif"
-                android:text="TextView"
+                android:text="Tiêu đề..."
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
