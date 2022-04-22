@@ -1,18 +1,27 @@
 package com.cmb.hbnews
 
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.cmb.hbnews.models.News
 import com.cmb.hbnews.readingnews.NewsItemListFragment
 import com.cmb.hbnews.scrapers.NewsProvider
 import com.cmb.hbnews.scrapers.NewsSource
+import com.google.firebase.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_reading_news.*
@@ -22,6 +31,7 @@ import kotlinx.coroutines.withContext
 import userData
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class reading_news : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
@@ -43,11 +53,9 @@ class reading_news : AppCompatActivity() {
         }
         firebaseAuth = FirebaseAuth.getInstance()
         auth = Firebase.auth
-
         val tilte_reading:String = intent.getStringExtra("title").toString()
         val description:String = intent.getStringExtra("description").toString()
         val newsImage:String = intent.getStringExtra("newsImage").toString()
-        val newsSrcLogoResource:Int = intent.getIntExtra("newsSrcLogoResource", 0)
         val date:String = intent.getStringExtra("date").toString()
         val url = intent.getStringExtra("newsUrl").toString()
         val newsSource = intent.getSerializableExtra("newsSource") as NewsSource
@@ -59,10 +67,89 @@ class reading_news : AppCompatActivity() {
         description_reading.setText(description)
         publishtime_reading.setText(date)
         val currentDateTime: String = SimpleDateFormat("HH:mm-dd/MM/yyyy").format(Date())
+
+        if(firebaseAuth.currentUser != null) {
+            userID = firebaseAuth.currentUser!!.uid
+            database = FirebaseDatabase.getInstance().getReference("Saved")
+            database.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(userID).child(tilte_reading).exists()) {
+                        image_bookmark.setColorFilter(resources.getColor(R.color.purple_200));
+                    }
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+
+            }
+            )
+        }
+        image_bookmark.setOnClickListener() {
+            if(firebaseAuth.currentUser != null)
+            {
+                userID = firebaseAuth.currentUser!!.uid
+                database= FirebaseDatabase.getInstance().getReference("Saved")
+                database.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.child(userID).child(tilte_reading).exists()) {
+                            val builder = AlertDialog.Builder(this@reading_news)
+                            builder.setTitle("Xóa bài viết đã lưu")
+                            builder.setMessage("Bạn có chắc chắn không?")
+                            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                                image_bookmark.setColorFilter(null)
+                                database.child(userID).child(tilte_reading).removeValue()
+                                Toast.makeText(this@reading_news, "Đã xóa thành công", Toast.LENGTH_SHORT).show()
+                            }
+                            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+
+                            }
+                            builder.show()
+                        }
+                        else {
+                            val update = userData(
+                                date,
+                                description,
+                                newsImage,
+                                newSourceString,
+                                url,
+                                tilte_reading,
+                                currentDateTime
+                            )
+                            database.child(userID).child(tilte_reading).setValue(update)
+                            image_bookmark.setColorFilter(resources.getColor(R.color.purple_200));
+                            Toast.makeText(this@reading_news, "Đã thêm thành công", Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+
+            }
+            else
+            {
+                val builder = AlertDialog.Builder(this@reading_news)
+                builder.setTitle("⚠️Bài viết này hay quá phải hong?")
+                builder.setMessage("👉Nhưng bạn chưa tạo tài khoản, nếu bạn đã có tài khoản nhấn đăng nhập để lưu lại bài viết mình thích nhé ❤️❤️!!")
+                builder.setPositiveButton("Đăng Kí") { dialog, which ->
+                    startActivity(Intent(this, SignUp::class.java))
+                }
+
+                builder.setNegativeButton("Đăng Nhập") { dialog, which ->
+                    startActivity(Intent(this, Login::class.java))
+                }
+
+                builder.setNeutralButton(android.R.string.no) { dialog, which ->
+
+                }
+                builder.show()
+            }
+        }
         var news: News
         lifecycleScope.launch(Dispatchers.IO) {
 
             news = NewsProvider.getNewsFromUrl(newsSource, url)
+
             if (firebaseAuth.currentUser != null) {
                 userID = firebaseAuth.currentUser!!.uid
                 database = FirebaseDatabase.getInstance().getReference("History")
@@ -73,10 +160,11 @@ class reading_news : AppCompatActivity() {
                     newSourceString,
                     url,
                     news.title,
-                    currentDateTime
+                    currentDateTime,
                 )
                 database.child(userID).child(news.title).setValue(update)
             }
+
             withContext(Dispatchers.Main) {
                 author_reading.setText(news.author)
                 publishtime_reading.setText(news.date)
@@ -88,5 +176,6 @@ class reading_news : AppCompatActivity() {
                     .commit()
             }
         }
+
     }
 }

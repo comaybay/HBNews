@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HBNews">
         <activity
+            android:name=".bookmarked_user"
+            android:exported="false" />
+        <activity
+            android:name=".history_user"
+            android:exported="false" />
+        <activity
             android:name=".reading_news"
             android:exported="false" />
         <activity

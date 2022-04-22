@@ -36,6 +36,8 @@ class UserFragment : Fragment() {
 
     private lateinit var signIn_btn : TextView
     private lateinit var signUp_btn : TextView
+    private lateinit var history_btn : TextView
+    private lateinit var saved_btn : TextView
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var auth: FirebaseAuth
     private var userID: String =""
@@ -69,7 +71,8 @@ class UserFragment : Fragment() {
 
         signIn_btn = view.findViewById(R.id.signIn_btn)
         signUp_btn = view.findViewById(R.id.signUp_btn)
-
+        history_btn = view.findViewById(R.id.history_news)
+        saved_btn = view.findViewById(R.id.saved_news)
         signIn_btn.setOnClickListener{
             val intent = Intent(getActivity(),Login::class.java)
                 startActivity(intent)
@@ -84,32 +87,71 @@ class UserFragment : Fragment() {
             signUp_btn.isVisible = false
             textViewor.isVisible = false
         }
+        history_btn.setOnClickListener {
+            if(firebaseAuth.currentUser != null)
+            {
+                val intent = Intent(getActivity(),history_user::class.java)
+                startActivity(intent)
+            }
+            else
+            {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("⚠️Chưa đăng nhập hoặc đăng kí")
+                builder.setMessage("👉Nhưng bạn chưa tạo tài khoản, nếu bạn đã có tài khoản nhấn đăng nhập nhé ❤️❤️!!")
+                builder.setPositiveButton("Đăng Kí") { dialog, which ->
+                    val intent = Intent(getActivity(),Login::class.java)
+                    startActivity(intent)
+                }
+                builder.setNegativeButton("Đăng Nhập") { dialog, which ->
+                    val intent = Intent(getActivity(),SignUp::class.java)
+                    startActivity(intent)
+                }
+                builder.setNeutralButton(android.R.string.no) { dialog, which ->
+
+                }
+                builder.show()
+            }
+        }
+        saved_btn.setOnClickListener {
+            if (firebaseAuth.currentUser != null) {
+                val intent = Intent(getActivity(), bookmarked_user::class.java)
+                startActivity(intent)
+            }
+            else {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("⚠️Chưa đăng nhập hoặc đăng kí")
+                builder.setMessage("👉Nhưng bạn chưa tạo tài khoản, nếu bạn đã có tài khoản nhấn đăng nhập nhé ❤️❤️!!")
+                builder.setPositiveButton("Đăng Kí") { dialog, which ->
+                    val intent = Intent(getActivity(), Login::class.java)
+                    startActivity(intent)
+                }
+                builder.setNegativeButton("Đăng Nhập") { dialog, which ->
+                    val intent = Intent(getActivity(), SignUp::class.java)
+                    startActivity(intent)
+                }
+                builder.setNeutralButton(android.R.string.no) { dialog, which ->
+
+                }
+                builder.show()
+            }
+        }
         SignOut.setOnClickListener {
             if (firebaseAuth.currentUser != null) {
-                // build alert dialog
                 val dialogBuilder = AlertDialog.Builder(requireContext())
-                // set message of alert dialog
                 dialogBuilder.setMessage("Thao tác này sẽ đăng xuất tài khoản khỏi ứng dụng.")
-                    // if the dialog is cancelable
                     .setCancelable(false)
-                    // positive button text and action
                     .setPositiveButton("Đồng Ý", DialogInterface.OnClickListener { dialog, id ->
                         Firebase.auth.signOut()
                         Toast.makeText(
                             activity, "Cảm ơn.",
                             Toast.LENGTH_SHORT
                         ).show()
-                        startActivity(Intent(getActivity(), Login::class.java))
                     })
-                    // negative button text and action
                     .setNegativeButton("Trở Về", DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
-                // create dialog box
                 val alert = dialogBuilder.create()
-                // set title for alert dialog box
                 alert.setTitle("Đăng Xuất")
-                // show alert dialog
                 alert.show()
             }
         }
