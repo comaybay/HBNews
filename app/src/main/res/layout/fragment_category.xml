@@ -8,38 +8,12 @@
     tools:context=".CategoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="0dp"
-        android:background="@color/white">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chuyên Mục"
-                android:textColor="@color/orange"
-                android:textSize="25sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-
-        </RelativeLayout>
-
-    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_below="@+id/toolbar"
         android:layout_marginTop="0dp"
         android:background="@color/white"
         app:tabIndicatorColor="@color/orange"
