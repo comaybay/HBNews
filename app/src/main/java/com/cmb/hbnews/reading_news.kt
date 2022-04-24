@@ -74,7 +74,7 @@ class reading_news : AppCompatActivity() {
             database.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.child(userID).child(tilte_reading).exists()) {
-                        image_bookmark.setColorFilter(resources.getColor(R.color.purple_200));
+                        image_bookmark.setImageResource(R.drawable.ic__bookmark_72_fill);
                     }
 
                 }
@@ -96,7 +96,7 @@ class reading_news : AppCompatActivity() {
                             builder.setTitle("Xóa bài viết đã lưu")
                             builder.setMessage("Bạn có chắc chắn không?")
                             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                                image_bookmark.setColorFilter(null)
+                                image_bookmark.setImageResource(R.drawable.icons8_bookmark_72___);
                                 database.child(userID).child(tilte_reading).removeValue()
                                 Toast.makeText(this@reading_news, "Đã xóa thành công", Toast.LENGTH_SHORT).show()
                             }
@@ -116,7 +116,7 @@ class reading_news : AppCompatActivity() {
                                 currentDateTime
                             )
                             database.child(userID).child(tilte_reading).setValue(update)
-                            image_bookmark.setColorFilter(resources.getColor(R.color.purple_200));
+                            image_bookmark.setImageResource(R.drawable.ic__bookmark_72_fill);
                             Toast.makeText(this@reading_news, "Đã thêm thành công", Toast.LENGTH_SHORT).show()
 
                         }

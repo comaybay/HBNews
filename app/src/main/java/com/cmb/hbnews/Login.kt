@@ -87,6 +87,7 @@ class Login : AppCompatActivity() {
                             baseContext, "Có lỗi.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        progressBarLogin.visibility = View.INVISIBLE
                     }
                 }
 
