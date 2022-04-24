@@ -84,8 +84,8 @@ class Login : AppCompatActivity() {
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(
-                            baseContext, "Có lỗi.",
-                            Toast.LENGTH_SHORT
+                            baseContext, "Sai địa chỉ email hoặc mật khẩu. Vui lòng thử lại.",
+                            Toast.LENGTH_LONG
                         ).show()
                         progressBarLogin.visibility = View.INVISIBLE
                     }

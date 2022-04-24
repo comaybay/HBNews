@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.cmb.hbnews.scrapers.NewsSource
 import com.squareup.picasso.Picasso
 import org.w3c.dom.Text
 import userData
@@ -33,7 +34,7 @@ class userAdapter(private val userDatalist:ArrayList<userData>):RecyclerView.Ada
         Picasso.get().load(data.newsImage)
             .placeholder(R.drawable.ic_image_not_found)
             .into(holder.img_view)
-        //
+
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, reading_news::class.java)
@@ -56,7 +57,7 @@ class userAdapter(private val userDatalist:ArrayList<userData>):RecyclerView.Ada
             val descriptionlayout:TextView = view.findViewById(R.id.description)
             val news_date:TextView = view.findViewById(R.id.news_date)
             val timestamp:TextView = view.findViewById(R.id.timestamp)
-            val delete_img:ImageView = view.findViewById(R.id.delete)
+            //val delete_img:ImageView = view.findViewById(R.id.delete)
             val img_view:ImageView = view.findViewById(R.id.image_view)
             val newsSouce:TextView = view.findViewById(R.id.newsSource)
 
