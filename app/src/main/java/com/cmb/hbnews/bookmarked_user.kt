@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cmb.hbnews.models.NewsHeader
@@ -12,7 +14,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_bookmarked_user.*
+import kotlinx.android.synthetic.main.activity_history_user.*
 import kotlinx.android.synthetic.main.activity_reading_news.*
+import kotlinx.android.synthetic.main.activity_reading_news.image_back_btn
 import userData
 
 class bookmarked_user : AppCompatActivity() {
@@ -62,6 +67,40 @@ class bookmarked_user : AppCompatActivity() {
             }
 
         })
+
+        clear_all_saved.setOnClickListener {
+            val builder = AlertDialog.Builder(this@bookmarked_user)
+            builder.setTitle("⚠️Xóa Tất Cả")
+            builder.setMessage("Thao tác sẽ xóa hết tất cả bài viết đã lưu của bạn.")
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+
+                database.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists())
+                        {
+                            snapshot.ref.removeValue()
+                            Toast.makeText(this@bookmarked_user, "Đã xóa thành công", Toast.LENGTH_SHORT).show()
+
+                        }
+                        for (userSnapshot in snapshot.children)
+                        {
+                            val user = userSnapshot.getValue(userData::class.java)
+                            userArraylist.remove(user!!)
+                        }
+                        recycleView.adapter = userAdapter(userArraylist)
+
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+            }
+
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+
+            }
+
+            builder.show()
+        }
 
     }
 }
