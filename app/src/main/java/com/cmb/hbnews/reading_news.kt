@@ -59,7 +59,7 @@ class reading_news : AppCompatActivity() {
         val date:String = intent.getStringExtra("date").toString()
         val url = intent.getStringExtra("newsUrl").toString()
         val newsSource = intent.getSerializableExtra("newsSource") as NewsSource
-        val newSourceString:String = newsSource.toString()
+
         Picasso.get().load(newsImage)
             .placeholder(R.drawable.ic_image_not_found)
             .into(image_description)
@@ -110,10 +110,11 @@ class reading_news : AppCompatActivity() {
                                 date,
                                 description,
                                 newsImage,
-                                newSourceString,
+                                newsSource.toString(),
                                 url,
                                 tilte_reading,
-                                currentDateTime
+                                currentDateTime,
+
                             )
                             database.child(userID).child(tilte_reading).setValue(update)
                             image_bookmark.setImageResource(R.drawable.ic__bookmark_72_fill);
@@ -157,7 +158,7 @@ class reading_news : AppCompatActivity() {
                     date,
                     news.description,
                     newsImage,
-                    newSourceString,
+                    newsSource.toString(),
                     url,
                     news.title,
                     currentDateTime,

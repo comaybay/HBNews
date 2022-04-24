@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cmb.hbnews.models.NewsHeader
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
