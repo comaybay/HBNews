@@ -7,9 +7,6 @@
     android:background="@color/white"
     tools:context=".CategoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
@@ -21,16 +18,17 @@
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/orange"
         app:tabTextColor="@color/black">
+
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
+        android:layout_below="@id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tabLayout"
         android:layout_marginTop="0dp"
-        tools:ignore="SpeakableTextPresentCheck"
-        >
+        tools:ignore="SpeakableTextPresentCheck">
+
     </androidx.viewpager2.widget.ViewPager2>
 
 

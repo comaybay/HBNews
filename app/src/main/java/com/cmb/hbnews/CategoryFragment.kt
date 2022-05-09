@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.cmb.hbnews.category.CategoryNewsHeadersViewPagerAdapter
 import com.cmb.hbnews.home.MainNewsListFragment
 import com.cmb.hbnews.scrapers.NewsCategory
+import com.cmb.hbnews.scrapers.NewsProvider
+import com.cmb.hbnews.scrapers.NewsSource
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_category.view.*
 
@@ -46,9 +48,5 @@ class CategoryFragment : Fragment() {
                 else -> throw NotImplementedError()
             }
         }).attach()
-    }
-
-    private fun navigateNews(category: NewsCategory) {
-
     }
 }

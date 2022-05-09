@@ -1,24 +1,54 @@
 package com.cmb.hbnews.scrapers
 
+import android.util.Log
 import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
+import kotlinx.coroutines.NonCancellable.isActive
+import kotlinx.coroutines.yield
+import kotlin.coroutines.cancellation.CancellationException
 
 class NewsProvider {
     companion object {
-        private val newsScrapers: ArrayList<INewsScraper> = arrayListOf(
+        private var newsScrapers: ArrayList<INewsScraper> = arrayListOf(
             ScraperVnExpress(), ScraperVietnamnet(), ScraperThanhNien()
         )
 
-        fun setNewsSources(newsSources: Array<NewsSource>) {
-            for (newsSource in newsSources) {
-                newsScrapers.add(NewsScrapperFactory.create(newsSource))
-            }
+        private val changeListeners = ArrayList<(ArrayList<NewsSource>) -> Unit>()
+
+        fun addOnChangeListener(callback: (ArrayList<NewsSource>) -> Unit) {
+            changeListeners.add(callback)
         }
 
-        fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
+        fun setNewsSources(newsSources: ArrayList<NewsSource>) {
+            newsScrapers = arrayListOf()
+
+            newsSources.forEach {
+                newsScrapers.add(NewsScrapperFactory.create(it))
+            }
+
+            changeListeners.forEach { it(newsSources) }
+
+        }
+
+        suspend fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
             val newsHeadersList = arrayListOf(arrayListOf<NewsHeader>())
             for (scraper in newsScrapers) {
-                newsHeadersList.add(scraper.getNewsHeaders(category));
+                try {
+                    yield()
+                    newsHeadersList.add(scraper.getNewsHeaders(category));
+                }
+                catch (e: Exception) {
+                    try {
+                        yield()
+                        newsHeadersList.add(scraper.getNewsHeaders(category));
+                    }
+                    catch (e: CancellationException) {
+                        // skip
+                    }
+                    catch (e: Exception) {
+                        Log.w("NEWSPROVIDER", e)
+                    }
+                }
             }
 
             val length = (newsHeadersList.map { newsHeaders -> newsHeaders.size }).maxOrNull() ?: 0;
@@ -36,7 +66,7 @@ class NewsProvider {
             return newsHeadersAll
         }
 
-        fun getNewsFromUrl(source: NewsSource, url: String): News {
+        suspend fun getNewsFromUrl(source: NewsSource, url: String): News {
             return NewsScrapperFactory.create(source).getNewsFromUrl(url)
         }
     }

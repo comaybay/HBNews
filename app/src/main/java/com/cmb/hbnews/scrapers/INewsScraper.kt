@@ -4,6 +4,6 @@ import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
 
 interface INewsScraper {
-    fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader>
-    fun getNewsFromUrl(url: String): News
+    suspend fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader>
+    suspend fun getNewsFromUrl(url: String): News
 }

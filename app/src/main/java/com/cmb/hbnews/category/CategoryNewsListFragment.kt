@@ -20,6 +20,7 @@ import kotlinx.coroutines.*
 class CategoryNewsListFragment : Fragment() {
     private var newsCategory: NewsCategory = NewsCategory.LATEST
     private var headers: ArrayList<NewsHeader> = arrayListOf()
+    private var currentJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +47,18 @@ class CategoryNewsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view as RecyclerView
 
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+        NewsProvider.addOnChangeListener {
+            currentJob?.cancel()
             headers.clear()
-            headers.addAll(NewsProvider.getNewsHeaders(newsCategory))
-            withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
+            view.adapter?.notifyDataSetChanged()
+
+            currentJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                yield()
+                val news = NewsProvider.getNewsHeaders(newsCategory)
+                yield()
+                headers.addAll(news)
+                withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
+            }
         }
     }
 

@@ -4,12 +4,14 @@ import com.cmb.hbnews.R
 import com.cmb.hbnews.models.*
 import com.cmb.hbnews.models.NewsItems.NewsItemImage
 import com.cmb.hbnews.models.NewsItems.NewsItemText
+import kotlinx.coroutines.yield
 import okhttp3.*
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.io.IOException
+import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -19,7 +21,7 @@ class ScraperVnExpress : INewsScraper
 {
     private val client: OkHttpClient = OkHttpClient()
 
-    override fun getNewsHeaders(category: NewsCategory) : ArrayList<NewsHeader> {
+    override suspend fun getNewsHeaders(category: NewsCategory) : ArrayList<NewsHeader> {
          var url ="https://vnexpress.net/microservice/home"
         if (category == NewsCategory.LATEST) {
             url = "https://gw.vnexpress.net/bt?site_id=1000000&category_id=1000000&showed_area=vne_topstory_beta&limit=10&data_select=article_id,article_type,title,share_url,thumbnail_url,publish_time,lead,privacy,original_cate,article_category&exclude_id=&thumb_size=300x180&thumb_quality=100&thumb_dpr=1,2&thumb_fit=crop"
@@ -29,7 +31,14 @@ class ScraperVnExpress : INewsScraper
             .url(url)
             .build()
 
-        val response = client.newCall(request).execute()
+        yield()
+        var response: Response
+        try  {
+            response = client.newCall(request).execute()
+        }
+        catch (e: SocketTimeoutException) {
+            return arrayListOf()
+        }
 
         if (!response.isSuccessful) {
             throw IOException("Error getting news header from VnExpress")
@@ -51,7 +60,12 @@ class ScraperVnExpress : INewsScraper
             else -> throw NotImplementedError()
         }
 
-        return parseNewsHeaders(response, categoryCode)
+        try {
+            return parseNewsHeaders(response, categoryCode)
+        }
+        catch (e: SocketTimeoutException) {
+            return arrayListOf()
+        }
     }
 
     private fun parseNewsHeaders(response: Response, categoryCode: String): ArrayList<NewsHeader>{
@@ -106,7 +120,8 @@ class ScraperVnExpress : INewsScraper
         return newsHeaders
     }
 
-    override fun getNewsFromUrl(url: String): News {
+    override suspend fun getNewsFromUrl(url: String): News {
+        yield()
         val doc = Jsoup.connect(url).get()
         val news = News();
         var authorElem = doc.selectFirst("article.fck_detail > p.author_mail")

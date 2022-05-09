@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NewsSourcesFragment">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/thanhnien_chip"
+                style="@style/OrangeChipStyle"
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="ThanhNien"
+                android:text="Thanh Niên" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/vnexpress_chip"
+                style="@style/OrangeChipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="VnExpress"
+                android:text="VnExpress" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/vietnamnet_chip"
+                style="@style/OrangeChipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Vietnamnet"
+                android:text="Vietnamnet" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/zingnews_chip"
+                style="@style/OrangeChipStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Vietnamnet"
+                android:text="Zing News" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+</FrameLayout>

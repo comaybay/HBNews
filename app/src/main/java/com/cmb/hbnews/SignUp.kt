@@ -111,6 +111,7 @@ class SignUp : AppCompatActivity() {
                         val user: MutableMap<String, Any> = HashMap()
                         user["fName"] = userName
                         user["fEmail"] = email
+                        user["prefNewsSources"] = "All"
                         documentReference.set(user).addOnSuccessListener {
                             Log.d(
                                 "TAG",

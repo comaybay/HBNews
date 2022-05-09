@@ -5,11 +5,12 @@ import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.models.NewsItems.NewsItemImage
 import com.cmb.hbnews.models.NewsItems.NewsItemText
+import kotlinx.coroutines.yield
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 
 class ScraperThanhNien : INewsScraper {
-    override fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
+    override suspend fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
         val pageUrl = when (category) {
             NewsCategory.LATEST -> "https://thanhnien.vn/tin-24h.html"
             NewsCategory.CURRENT_AFFAIRS -> "https://thanhnien.vn/thoi-su/"
@@ -20,9 +21,9 @@ class ScraperThanhNien : INewsScraper {
             NewsCategory.LIFESTYLE -> "https://thanhnien.vn/doi-song/"
             NewsCategory.HEALTH -> "https://thanhnien.vn/suc-khoe/"
             NewsCategory.TRAVEL -> "https://thanhnien.vn/du-lich/"
-            else -> throw NotImplementedError()
         }
 
+        yield()
         val doc = Jsoup.connect(pageUrl).get()
 
         val newsHeadersElems = when (category) {
@@ -84,7 +85,7 @@ class ScraperThanhNien : INewsScraper {
         return newsHeaders
     }
 
-    override fun getNewsFromUrl(url: String): News {
+    override suspend fun getNewsFromUrl(url: String): News {
         val doc = Jsoup.connect(url).get()
         val news = News();
 
