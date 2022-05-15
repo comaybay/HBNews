@@ -8,9 +8,10 @@
         android:id="@+id/news_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nghị sĩ và thống đốc Nga xác nhận đại tá Andrey Paliy, phó tư lệnh Hạm đội Biển Đen, thiệt mạng trong giao tranh gần thành phố Mariupol, đông nam Ukraine."
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:fontFamily="serif"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/noto_serif"
+        android:text="Nghị sĩ và thống đốc Nga xác nhận đại tá Andrey Paliy, phó tư lệnh Hạm đội Biển Đen, thiệt mạng trong giao tranh gần thành phố Mariupol, đông nam Ukraine."
+        android:textColor="#333333"
         android:textSize="14sp" />
 </LinearLayout>
