@@ -1,6 +1,5 @@
 package com.cmb.hbnews
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -15,16 +14,10 @@ import com.cmb.hbnews.models.News
 import com.cmb.hbnews.readingnews.NewsItemListFragment
 import com.cmb.hbnews.scrapers.NewsProvider
 import com.cmb.hbnews.scrapers.NewsSource
-import com.google.firebase.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_reading_news.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,13 +62,14 @@ class reading_news : AppCompatActivity() {
         description_reading.setText(description)
         publishtime_reading.setText(date)
         val currentDateTime: String = SimpleDateFormat("HH:mm-dd/MM/yyyy").format(Date())
-
+        val titile: String = tilte_reading.replace(".", "")
+        Log.d("Replace",titile)
         if(firebaseAuth.currentUser != null) {
             userID = firebaseAuth.currentUser!!.uid
             database = FirebaseDatabase.getInstance().getReference("Saved")
             database.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(userID).child(tilte_reading).exists()) {
+                    if (snapshot.child(userID).child(titile).exists()) {
                         image_bookmark.setImageResource(R.drawable.ic__bookmark_72_fill);
                     }
 
@@ -99,7 +93,7 @@ class reading_news : AppCompatActivity() {
                             builder.setMessage("Bạn có chắc chắn không?")
                             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
                                 image_bookmark.setImageResource(R.drawable.icons8_bookmark_72___);
-                                database.child(userID).child(tilte_reading).removeValue()
+                                database.child(userID).child(titile).removeValue()
                                 Toast.makeText(this@reading_news, "Đã xóa thành công", Toast.LENGTH_SHORT).show()
                             }
                             builder.setNegativeButton(android.R.string.no) { dialog, which ->
@@ -114,7 +108,7 @@ class reading_news : AppCompatActivity() {
                                 newsImage,
                                 newsSource.toString(),
                                 url,
-                                tilte_reading,
+                                titile,
                                 currentDateTime,
 
                             )
@@ -162,10 +156,10 @@ class reading_news : AppCompatActivity() {
                     newsImage,
                     newsSource.toString(),
                     url,
-                    news.title,
+                    titile,
                     currentDateTime,
                 )
-                database.child(userID).child(news.title).setValue(update)
+                database.child(userID).child(titile).setValue(update)
             }
 
             withContext(Dispatchers.Main) {
