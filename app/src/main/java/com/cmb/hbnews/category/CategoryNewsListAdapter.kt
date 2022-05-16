@@ -40,7 +40,7 @@ class CategoryNewsListAdapter(
 //        Picasso.get().load(news.imgSrc)
 //                     .placeholder(R.drawable.ic_image_not_found)
 //                     .into(holder.newsImage)
-        Glide.with(holder.itemView.getContext()).load(news.imgSrc).into(holder.newsImage);
+        Glide.with(holder.itemView.getContext()).load(news.imgSrc).override(400,400).into(holder.newsImage);
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
         holder.date.text = news.date
 

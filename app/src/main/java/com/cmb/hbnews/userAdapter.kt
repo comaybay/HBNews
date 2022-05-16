@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.scrapers.NewsSource
 import com.squareup.picasso.Picasso
@@ -30,9 +31,10 @@ class userAdapter(private val userDatalist:ArrayList<userData>):RecyclerView.Ada
         holder.timestamp.text = data.timestamp
         holder.newsSouce.text = data.newsSource
 
-        Picasso.get().load(data.imgSrc)
-            .placeholder(R.drawable.ic_image_not_found)
-            .into(holder.img_view)
+//        Picasso.get().load(data.imgSrc)
+//            .placeholder(R.drawable.ic_image_not_found)
+//            .into(holder.img_view)
+        Glide.with(holder.itemView.getContext()).load(data.imgSrc).override(400,400).into(holder.img_view);
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, reading_news::class.java)
