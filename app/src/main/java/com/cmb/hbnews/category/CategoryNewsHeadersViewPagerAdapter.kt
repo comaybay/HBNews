@@ -11,20 +11,19 @@ import com.cmb.hbnews.scrapers.NewsCategory
 
 class CategoryNewsHeadersViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment){
     override fun getItemCount(): Int {
-        return NewsCategory.values().size
+        return 8;
     }
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> CategoryNewsListFragment.newInstance(NewsCategory.LATEST)
-            1 -> CategoryNewsListFragment.newInstance(NewsCategory.CURRENT_AFFAIRS)
-            2 -> CategoryNewsListFragment.newInstance(NewsCategory.BUSINESS)
-            3 -> CategoryNewsListFragment.newInstance(NewsCategory.SPORTS)
-            4 -> CategoryNewsListFragment.newInstance(NewsCategory.ENTERTAINMENT)
-            5 -> CategoryNewsListFragment.newInstance(NewsCategory.TECHNOLOGY)
-            6 -> CategoryNewsListFragment.newInstance(NewsCategory.LIFESTYLE)
-            7 -> CategoryNewsListFragment.newInstance(NewsCategory.HEALTH)
-            8 -> CategoryNewsListFragment.newInstance(NewsCategory.TRAVEL)
+            0 -> CategoryNewsListFragment.newInstance(NewsCategory.CURRENT_AFFAIRS)
+            1 -> CategoryNewsListFragment.newInstance(NewsCategory.BUSINESS)
+            2 -> CategoryNewsListFragment.newInstance(NewsCategory.SPORTS)
+            3 -> CategoryNewsListFragment.newInstance(NewsCategory.ENTERTAINMENT)
+            4 -> CategoryNewsListFragment.newInstance(NewsCategory.TECHNOLOGY)
+            5 -> CategoryNewsListFragment.newInstance(NewsCategory.LIFESTYLE)
+            6 -> CategoryNewsListFragment.newInstance(NewsCategory.HEALTH)
+            7 -> CategoryNewsListFragment.newInstance(NewsCategory.TRAVEL)
             else -> throw NotImplementedError()
         }
     }

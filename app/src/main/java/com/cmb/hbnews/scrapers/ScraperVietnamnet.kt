@@ -1,5 +1,6 @@
 package com.cmb.hbnews.scrapers
 
+import android.util.Log
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.News
 import com.cmb.hbnews.models.NewsHeader
@@ -33,6 +34,7 @@ class ScraperVietnamnet : INewsScraper{
             }
             catch (e: Exception) {
                 // không hiểu sao... lâu lâu bị exception, cần phải thử lại
+                Log.e("ScraperVietnamnet", "Không lấy được tin header từ url '$pageUrl', thử lại...\n$e");
             }
         }
         val newsHeaderElems = doc.select("div.feature-box")
@@ -47,13 +49,20 @@ class ScraperVietnamnet : INewsScraper{
             if (imgSrc.isEmpty())
                 imgSrc = imgElem.attr("src")
 
+            var newsUrl = origin + titleElem.attr("href")
+
+            //Tin tức ở trang 24h không cần origin (vì có sẵn trong href)
+            if (category == NewsCategory.LATEST) {
+                newsUrl = titleElem.attr("href")
+            }
+
             newsHeaders.add(
                 NewsHeader(
                     title = titleElem.text(),
                     description =  elem.selectFirst("div.feature-box__content--desc")!!.text(),
                     imgSrc = imgSrc,
                     date = "", //vietnamnet không hiển thị ngày đăng ở đầu báo
-                    newsUrl = origin + titleElem.attr("href"),
+                    newsUrl = newsUrl,
                     newsSource = NewsSource.Vietnamnet,
                     newsSrcLogoResource = R.drawable.ic_logo_vietnamnet,
                 )
@@ -65,6 +74,7 @@ class ScraperVietnamnet : INewsScraper{
 
     override suspend fun getNewsFromUrl(url: String): News {
         var doc: Document? = null
+//        var tryAgainCount = 0;
         while (doc == null) {
             try {
                 yield()
@@ -72,6 +82,12 @@ class ScraperVietnamnet : INewsScraper{
             }
             catch (e: Exception) {
                 // không hiểu sao... lâu lâu bị exception, cần phải thử lại
+                Log.e("ScraperVietnamnet", "Không lấy được tin từ url '$url', thử lại...\n$e");
+//                tryAgainCount++;
+//                if (tryAgainCount > 3) {
+//                    Log.e("ScraperVietnamnet", "Lấy tin từ url '$url' thất bại");
+//                    return News();
+//                }
             }
         }
         val news = News();
@@ -84,8 +100,8 @@ class ScraperVietnamnet : INewsScraper{
         val descElem = doc.selectFirst("div.newFeature__main-textBold")
                         ?: doc.selectFirst("div > p.text-bold")!!;
 
-        val authorElem = doc.selectFirst("div.maincontent div > p:last-of-type")?.selectFirst("strong")
-            ?:  doc.selectFirst("div.maincontent > p:last-of-type")?.selectFirst("strong")
+        val authorElem = doc.selectFirst("div.maincontent div > p:last-of-type")
+            ?:  doc.selectFirst("div.maincontent > p:last-of-type")
 
         news.title = titleElem.text();
         news.description = descElem.text();

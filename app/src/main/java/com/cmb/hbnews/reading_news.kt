@@ -54,6 +54,9 @@ class reading_news : AppCompatActivity() {
         val url = intent.getStringExtra("newsUrl").toString()
         val newsSource = intent.getSerializableExtra("newsSource") as NewsSource
 
+
+        text_go_back.setText(intent.getStringExtra("goBackTitle"))
+
 //        Picasso.get().load(newsImage)
 //            .placeholder(R.drawable.ic_image_not_found)
 //            .into(image_description)

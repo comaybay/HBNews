@@ -26,9 +26,7 @@
              android:textColor="@color/orange"
              android:textSize="25sp"
              android:textStyle="bold">
-
          </TextView>
-
 
       </RelativeLayout>
 

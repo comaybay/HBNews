@@ -33,18 +33,17 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.viewPager.adapter = CategoryNewsHeadersViewPagerAdapter(this)
-        view.viewPager.offscreenPageLimit = 8
+        view.viewPager.offscreenPageLimit = 7
         TabLayoutMediator(view.tabLayout, view.viewPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
             when (position) {
-                0 -> tab.setText("TIN MỚI")
-                1 -> tab.setText("THỜI SỰ")
-                2 -> tab.setText("KINH DOANH")
-                3 -> tab.setText("THỂ THAO")
-                4 -> tab.setText("GIẢI TRÍ")
-                5 -> tab.setText("CÔNG NGHỆ")
-                6 -> tab.setText("ĐỜI SỐNG")
-                7 -> tab.setText("SỨC KHỎE")
-                8 -> tab.setText("DU LỊCH")
+                0 -> tab.setText("THỜI SỰ")
+                1 -> tab.setText("KINH DOANH")
+                2 -> tab.setText("THỂ THAO")
+                3 -> tab.setText("GIẢI TRÍ")
+                4 -> tab.setText("CÔNG NGHỆ")
+                5 -> tab.setText("ĐỜI SỐNG")
+                6 -> tab.setText("SỨC KHỎE")
+                7 -> tab.setText("DU LỊCH")
                 else -> throw NotImplementedError()
             }
         }).attach()

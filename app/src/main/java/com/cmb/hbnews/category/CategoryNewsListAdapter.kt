@@ -48,6 +48,8 @@ class CategoryNewsListAdapter(
             val context = holder.itemView.context
             val intent = Intent(context, reading_news::class.java)
 
+            intent.putExtra("goBackTitle", "Chuyên mục")
+
             intent.putExtra("title",holder.title.text)
             intent.putExtra("description",holder.description.text)
             intent.putExtra("newsImage",news.imgSrc)

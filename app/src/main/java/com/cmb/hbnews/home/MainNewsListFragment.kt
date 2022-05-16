@@ -7,14 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
+import com.cmb.hbnews.scrapers.NewsCategory
+import com.cmb.hbnews.scrapers.NewsProvider
 import com.cmb.hbnews.scrapers.NewsSource
+import kotlinx.coroutines.*
 
 /**
  * A fragment representing a list of Items.
  */
 class MainNewsListFragment : Fragment() {
+    private var headers: ArrayList<NewsHeader> = arrayListOf()
+    private var currentJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,31 +30,34 @@ class MainNewsListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_main_news_list, container, false)
-
-        val createMockNewsHeader1 = { NewsHeader("Quan chức Nga nói Phó tư lệnh Hạm đội Biển Đen tử trận ở Ukraine", "Nghị sĩ và thống đốc Nga xác nhận đại tá Andrey Paliy, phó tư lệnh Hạm đội Biển Đen, thiệt mạng trong giao tranh gần thành phố Mariupol, đông nam Ukraine.", "https://i1-vnexpress.vnecdn.net/2022/03/21/tuong-nga-jpeg-1647822727-5170-1647822830.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=C2ECsmGBFygosQAOBJ_zNg", "6/7/1998", "https://thanhnien.vn/truyen-thong-nga-pho-tu-lenh-ham-doi-bien-den-tu-tran-tai-ukraine-post1440735.html", NewsSource.ThanhNien, R.drawable.ic_logo_thanhnien) };
-        val createMockNewsHeader2 = { NewsHeader("Sâm Ngọc Linh 30 triệu đồng một lạng vẫn hút khách", "Những củ sâm Ngọc Linh trên 16 năm tuổi, nặng hơn 100 gram có giá bán 30 triệu đồng 100 gram (một lạng) vẫn được nhiều người đặt mua.", "https://i1-kinhdoanh.vnecdn.net/2022/03/07/snl-1646647644-1646647655-9036-1646647971.jpg?w=220&h=132&q=100&dpr=1&fit=crop&s=RH3lJ_AvENbcNYGq-3Svgg", "3/8/2021","https://vnexpress.net/sam-ngoc-linh-30-trieu-dong-mot-lang-van-hut-khach-4435842.html", NewsSource.VnExpress, R.drawable.ic_logo_vnexpress) };
-
-        val news = listOf<NewsHeader>(
-            createMockNewsHeader1(),
-            createMockNewsHeader2(),
-            createMockNewsHeader1(),
-            createMockNewsHeader2(),
-            createMockNewsHeader1(),
-            createMockNewsHeader2(),
-            createMockNewsHeader1(),
-            createMockNewsHeader2()
-        )
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = MainNewsListAdapter(news)
-            }
+        val view = inflater.inflate(R.layout.fragment_main_news_list, container, false) as RecyclerView
+        with(view) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = MainNewsListAdapter(headers)
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        NewsProvider.addOnChangeListener { getNews() }
+        getNews();
+    }
+
+    fun getNews() {
+        currentJob?.cancel()
+        headers.clear()
+
+        val view = view as RecyclerView
+        view.adapter?.notifyDataSetChanged()
+
+        currentJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            yield()
+            val news = NewsProvider.getNewsHeaders(NewsCategory.LATEST)
+            yield()
+            headers.addAll(news)
+            withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
+        }
     }
 
     companion object {
