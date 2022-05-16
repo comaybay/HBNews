@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.reading_news
@@ -36,9 +37,10 @@ class CategoryNewsListAdapter(
         val news = newsList[position]
         holder.title.text = news.title
         holder.description.text = news.description
-        Picasso.get().load(news.imgSrc)
-                     .placeholder(R.drawable.ic_image_not_found)
-                     .into(holder.newsImage)
+//        Picasso.get().load(news.imgSrc)
+//                     .placeholder(R.drawable.ic_image_not_found)
+//                     .into(holder.newsImage)
+        Glide.with(holder.itemView.getContext()).load(news.imgSrc).into(holder.newsImage);
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
         holder.date.text = news.date
 

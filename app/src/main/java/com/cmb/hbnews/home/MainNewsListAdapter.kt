@@ -13,6 +13,7 @@ import com.cmb.hbnews.reading_news
 import com.squareup.picasso.Picasso
 import android.content.Context
 import androidx.core.content.ContextCompat.startActivity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_main_news.view.*
 
 /**
@@ -32,9 +33,10 @@ class MainNewsListAdapter(
         val news = newsList[position]
         holder.title.text = news.title
         holder.description.text = news.description
-        Picasso.get().load(news.imgSrc)
-            .placeholder(R.drawable.ic_image_not_found)
-            .into(holder.newsImage)
+//        Picasso.get().load(news.imgSrc)
+//            .placeholder(R.drawable.ic_image_not_found)
+//            .into(holder.newsImage)
+        Glide.with(holder.itemView.getContext()).load(news.imgSrc).into(holder.newsImage);
         holder.date.text = news.date
 
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)

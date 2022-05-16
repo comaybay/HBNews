@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.cmb.hbnews.models.News
 import com.cmb.hbnews.readingnews.NewsItemListFragment
 import com.cmb.hbnews.scrapers.NewsProvider
@@ -60,9 +61,10 @@ class reading_news : AppCompatActivity() {
         val url = intent.getStringExtra("newsUrl").toString()
         val newsSource = intent.getSerializableExtra("newsSource") as NewsSource
 
-        Picasso.get().load(newsImage)
-            .placeholder(R.drawable.ic_image_not_found)
-            .into(image_description)
+//        Picasso.get().load(newsImage)
+//            .placeholder(R.drawable.ic_image_not_found)
+//            .into(image_description)
+        Glide.with(this).load(newsImage).into(image_description);
         title_reading.setText(tilte_reading)
         description_reading.setText(description)
         publishtime_reading.setText(date)
