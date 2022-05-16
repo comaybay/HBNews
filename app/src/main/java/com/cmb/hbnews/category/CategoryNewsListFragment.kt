@@ -12,6 +12,7 @@ import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.scrapers.NewsCategory
 import com.cmb.hbnews.scrapers.NewsProvider
+import com.cmb.hbnews.scrapers.NewsSource
 import kotlinx.coroutines.*
 
 /**
@@ -45,20 +46,23 @@ class CategoryNewsListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view as RecyclerView
+        NewsProvider.addOnChangeListener { getNews() }
+        getNews();
+    }
 
-        NewsProvider.addOnChangeListener {
-            currentJob?.cancel()
-            headers.clear()
-            view.adapter?.notifyDataSetChanged()
+    fun getNews() {
+        currentJob?.cancel()
+        headers.clear()
 
-            currentJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                yield()
-                val news = NewsProvider.getNewsHeaders(newsCategory)
-                yield()
-                headers.addAll(news)
-                withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
-            }
+        val view = view as RecyclerView
+        view.adapter?.notifyDataSetChanged()
+
+        currentJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            yield()
+            val news = NewsProvider.getNewsHeaders(newsCategory)
+            yield()
+            headers.addAll(news)
+            withContext(Dispatchers.Main) { view.adapter?.notifyDataSetChanged() };
         }
     }
 

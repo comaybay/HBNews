@@ -67,7 +67,7 @@ class NewsSourcesFragment(
     }
 
     fun createNewsSources(newsSourcesStr: String?): Array<NewsSource> {
-        if (newsSourcesStr == null || newsSourcesStr == "All") {
+        if (newsSourcesStr.isNullOrEmpty() || newsSourcesStr == "All") {
             return NewsSource.values()
         }
 
