@@ -10,7 +10,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class NewsProvider {
     companion object {
         private var newsScrapers: ArrayList<INewsScraper> = arrayListOf(
-            ScraperVnExpress(), ScraperVietnamnet(), ScraperThanhNien()
+            ScraperVnExpress(), ScraperVietnamnet(), ScraperThanhNien(), ScraperZingNews()
         )
 
         private val changeListeners = ArrayList<(ArrayList<NewsSource>) -> Unit>()
@@ -27,7 +27,6 @@ class NewsProvider {
             }
 
             changeListeners.forEach { it(newsSources) }
-
         }
 
         suspend fun getNewsHeaders(category: NewsCategory): ArrayList<NewsHeader> {
@@ -79,6 +78,7 @@ private class NewsScrapperFactory {
                 NewsSource.VnExpress -> ScraperVnExpress()
                 NewsSource.ThanhNien -> ScraperThanhNien()
                 NewsSource.Vietnamnet -> ScraperVietnamnet()
+                NewsSource.ZingNews -> ScraperZingNews()
             }
         }
     }

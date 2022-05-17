@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsItems.NewsItem
 import com.cmb.hbnews.models.NewsItems.NewsItemImage
@@ -57,9 +58,11 @@ class NewsItemListAdapter(
                 val holderText = holder as ViewHolderImage
 
                 val imgSrc = if (imageItem.imgSrc.isNullOrEmpty()) "empty" else imageItem.imgSrc
-                Picasso.get().load(imgSrc)
-                    .placeholder(R.drawable.ic_image_not_found)
-                    .into(holderText.image)
+
+                Glide.with(holder.itemView.getContext())
+                     .load(imgSrc)
+                     .placeholder(R.drawable.ic_image_not_found)
+                     .into(holder.image);
 
                 holderText.caption.text = imageItem.caption
             }

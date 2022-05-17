@@ -30,22 +30,9 @@ class NewsSourcesFragment(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         for (i in 0 until view.chip_group.childCount) {
             val chip = view.chip_group.getChildAt(i) as Chip
-            chip.tag = NewsSource.valueOf(chip.tag as String)
-            chip.isChecked = true
-
-            chip.setOnCheckedChangeListener { chip, state ->
-                if (state == true) {
-                    newsSources.add(chip.tag as NewsSource)
-                }
-                else {
-                    newsSources.remove(chip.tag as NewsSource)
-                }
-
-                onNewsSourcesChange(newsSources)
-            }
+            chip.isCheckable = false;
         }
 
         val userID =  FirebaseAuth.getInstance().currentUser?.uid
@@ -61,7 +48,20 @@ class NewsSourcesFragment(
 
                 for (i in 0 until view.chip_group.childCount) {
                     val chip = view.chip_group.getChildAt(i) as Chip
+                    chip.tag = NewsSource.valueOf(chip.tag as String)
+                    chip.isCheckable = true;
                     chip.isChecked = if (newsSources.contains(chip.tag as NewsSource)) true else false
+
+                    chip.setOnCheckedChangeListener { chip, state ->
+                        if (state == true) {
+                            newsSources.add(chip.tag as NewsSource)
+                        }
+                        else {
+                            newsSources.remove(chip.tag as NewsSource)
+                        }
+
+                        onNewsSourcesChange(newsSources)
+                    }
                 }
             }
     }
