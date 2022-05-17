@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.cmb.hbnews.R
 import com.cmb.hbnews.models.NewsHeader
 import com.cmb.hbnews.reading_news
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_category_news.view.*
 import kotlinx.android.synthetic.main.fragment_category_news.view.description
 import kotlinx.android.synthetic.main.fragment_category_news.view.image_view
@@ -37,9 +36,6 @@ class CategoryNewsListAdapter(
         val news = newsList[position]
         holder.title.text = news.title
         holder.description.text = news.description
-//        Picasso.get().load(news.imgSrc)
-//                     .placeholder(R.drawable.ic_image_not_found)
-//                     .into(holder.newsImage)
         Glide.with(holder.itemView.getContext()).load(news.imgSrc).override(400,400).into(holder.newsImage);
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
         holder.date.text = news.date

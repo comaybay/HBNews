@@ -9,7 +9,6 @@ class userDataList {
 
     constructor()
     {
-
     }
 
     constructor(

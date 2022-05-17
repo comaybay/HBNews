@@ -57,9 +57,6 @@ class reading_news : AppCompatActivity() {
 
         text_go_back.setText(intent.getStringExtra("goBackTitle"))
 
-//        Picasso.get().load(newsImage)
-//            .placeholder(R.drawable.ic_image_not_found)
-//            .into(image_description)
         Glide.with(this).load(newsImage).into(image_description);
         title_reading.setText(tilte_reading)
         description_reading.setText(description)
