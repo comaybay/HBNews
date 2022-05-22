@@ -32,7 +32,7 @@ class MainNewsListAdapter(
         val news = newsList[position]
         holder.title.text = news.title
         holder.description.text = news.description
-        Glide.with(holder.itemView.getContext()).load(news.imgSrc).override(400,400).into(holder.newsImage);
+        Glide.with(holder.itemView.getContext()).load(news.imgSrc).into(holder.newsImage);
         holder.date.text = news.date
 
         holder.newsSrcImage.setImageResource(news.newsSrcLogoResource)
